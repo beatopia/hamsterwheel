@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import Resume from './components/Resume';
@@ -8,19 +8,11 @@ import Blog from './components/Blog';
 import Header from './components/Header';
 import './App.css';
 
-const links = [
-  { href: "/about", label: "About" },
-  { href: "/resume", label: "Resume" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
-];
 
 function App() {
   const [currentPage, setCurrentPage] = React.useState<string>("home");
 
-  const handleNavClick = (label: string) => {
-    setCurrentPage(label);
-  };
+  
 
   return (
     <Router>
