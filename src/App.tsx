@@ -5,6 +5,7 @@ import About from './components/About';
 import Resume from './components/Resume';
 import Projects from './components/Projects';
 import Blog from './components/Blog';
+import Header from './components/Header';
 import './App.css';
 
 const links = [
@@ -25,27 +26,7 @@ function App() {
     <Router>
       <div className="shell">
         <div className="page-frame">
-          <div className="top-section">
-            <div className="intro">
-              <div className="name">Kai Luzniak</div>
-              <div className="tagline">Computer Science Student</div>
-            </div>
-            <Link to="/" className="hamster-link" onClick={() => setCurrentPage("home")}>
-              <img className="hamster" src="/media/gifs/hamster-spins.gif" alt="spinning hamster" />
-            </Link>
-            <nav>
-              {links.map((link) => (
-                <div key={link.href} className={`nav-item ${currentPage === link.label ? "selected" : ""}`}>
-                  <Link to={link.href} onClick={() => handleNavClick(link.label)}>
-                    {link.label}
-                  </Link>
-                  {currentPage === link.label && (
-                    <img className="indicator" src="/media/gifs/hamsterheadspin.gif" alt="selected" />
-                  )}
-                </div>
-              ))}
-            </nav>
-          </div>
+          <Header currentPage={currentPage} onSetPage={(p) => setCurrentPage(p)} />
           <div className="content-section">
             <Routes>
               <Route path="/" element={<Home setPage={() => setCurrentPage("home")} />} />
