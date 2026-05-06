@@ -1,0 +1,170 @@
+---
+interface Props {
+  title: string;
+  currentPage?: string;
+}
+
+const { title, currentPage = "home" } = Astro.props;
+
+const links = [
+  { href: "/about", label: "About" },
+  { href: "/resume", label: "Resume" },
+  { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <main class="shell">
+      <div class="top-section">
+        <div class="intro">
+          <div class="name">Kai Luzniak</div>
+          <div class="tagline">Computer Science Student</div>
+        </div>
+        <a href="/" class="hamster-link">
+          <img class="hamster" src="/media/gifs/hamster-spins.gif" alt="spinning hamster" transition:persist />
+        </a>
+        <nav>
+          {links.map((link) => (
+            <div key={link.href} class="nav-item">
+              <a href={link.href}>{link.label}</a>
+              {currentPage === link.label && <img class="indicator" src="/media/gifs/hamsterheadspin.gif" alt="selected" />}
+            </div>
+          ))}
+        </nav>
+      </div>
+      <div class="content-section">
+        <slot />
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  @font-face {
+    font-family: "VHS Gothic";
+    src: url("/media/fonts/vhs_gothic/vhs-gothic.ttf") format("truetype");
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #f9e8c9;
+    color: #3a2317;
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  .shell {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .top-section {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    width: 100%;
+    justify-content: center;
+    min-height: 150px;
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 100px;
+    justify-content: flex-start;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .name {
+    font-family: "VHS Gothic", serif;
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #3a2317;
+    margin: 0;
+    line-height: 1;
+  }
+
+  .tagline {
+    font-family: "VHS Gothic", serif;
+    font-size: 1.1rem;
+    color: #3a2317;
+    margin: 4px 0 0 0;
+  }
+
+  .hamster-link {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    text-decoration: none;
+    height: 120px;
+    flex-shrink: 0;
+  }
+
+  .hamster {
+    width: 120px;
+    height: 120px;
+    image-rendering: pixelated;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+    flex-shrink: 0;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 70px;
+    justify-content: center;
+  }
+
+  nav a {
+    color: #3a2317;
+    text-decoration: underline;
+    font-weight: normal;
+    font-size: 1.12rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  nav a:hover {
+    color: #b07154;
+  }
+
+  .indicator {
+    width: 40px;
+    height: 40px;
+    image-rendering: pixelated;
+  }
+
+  .content-section {
+    width: min(900px, calc(100% - 40px));
+    background: #3a2317;
+    color: #f9e8c9;
+    padding: 40px;
+    flex: 1;
+    min-height: 400px;
+  }
+</style>
