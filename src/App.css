@@ -141,3 +141,70 @@ nav a:hover {
   margin-top: 0;
   box-sizing: border-box;
 }
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+  .page-frame {
+    width: 100%;
+  }
+
+  .top-section {
+    flex-direction: row;
+    gap: 0;
+    height: auto;
+    min-height: 110px;
+    padding: 8px;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .intro {
+    display: none !important;
+  }
+
+  .hamster-link {
+    height: 70px;
+    flex-shrink: 0;
+    padding: 4px;
+  }
+
+  .hamster {
+    width: 70px;
+    height: 70px;
+  }
+
+  nav {
+    gap: 4px;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .nav-item {
+    height: auto;
+    width: auto;
+    padding: 4px 6px;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav a {
+    font-size: 0.8rem;
+  }
+
+  .indicator {
+    width: 25px;
+    height: 25px;
+    margin-top: 2px;
+  }
+
+  .content-section {
+    padding: 20px;
+    min-height: calc(100vh - 130px);
+  }
+}
