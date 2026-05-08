@@ -8,6 +8,33 @@
   src: url("/media/fonts/LinLibertine_R.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Bookerly";
+  src: url("/media/fonts/Bookerly.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter Variable";
+  src: url("/media/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.about-inter {
+  font-family: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Use variable font weight if needed */
+  font-variation-settings: "wght" 400;
+}
+
+/* increase Inter text by 1 point */
+.about-inter {
+  font-size: calc(100% + 1pt);
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -169,14 +196,32 @@ nav a:hover {
 }
 
 .about-title {
-  margin: 0 0 28px;
+  margin: 0;
   font-size: inherit;
   line-height: inherit;
   color: #f9e8c9;
 }
 
+/* spacing before and after works block matches paragraph spacing */
+.about-title.about-section {
+  margin-bottom: 25px;
+}
+.about-works.about-section {
+  margin-bottom: 25px;
+}
+
 .about-group {
-  margin-bottom: 8px;
+  margin-bottom: 0;
+}
+
+/* Make the middle 'works' block spacing match paragraph spacing */
+.about-works {
+  margin: 25px 0; /* match `.about-copy--spaced` 25px spacing */
+}
+
+/* Section spacing: each logical section gets a consistent two-line gap */
+.about-section {
+  margin-bottom: 43px; /* reduced 5px */
 }
 
 .about-line {
@@ -198,7 +243,7 @@ nav a:hover {
   gap: 8px;
   border: 1px solid rgba(249, 232, 201, 0.55);
   border-radius: 4px;
-  padding: 5px 9px 5px 8px;
+  padding: 3px 8px; /* reduced vertical padding to shrink height */
   background: rgba(249, 232, 201, 0.1);
   color: #f9e8c9;
   font-size: inherit;
@@ -212,7 +257,7 @@ nav a:hover {
 }
 
 .about-group--interned {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .about-chip--featured {
@@ -221,8 +266,8 @@ nav a:hover {
 }
 
 .about-chip-logo {
-  width: 1rem;
-  height: 1rem;
+  width: 0.85rem;
+  height: 0.85rem; /* slightly smaller to reduce chip height */
   object-fit: contain;
   flex: 0 0 auto;
   opacity: 0.85;
@@ -234,6 +279,10 @@ nav a:hover {
   font-size: inherit;
   line-height: inherit;
   color: rgba(249, 232, 201, 0.88);
+}
+
+.about-copy--spaced {
+  margin-bottom: 25px; /* 5px larger than default */
 }
 
 .about-copy a {
@@ -313,7 +362,22 @@ nav a:hover {
   }
 
   .about-title {
-    margin-bottom: 22px;
+    margin-bottom: 0;
+  }
+
+  .about-section {
+    margin-bottom: 27px;
+  }
+
+  .about-works {
+    margin: 25px 0;
+  }
+
+  .about-title.about-section {
+    margin-bottom: 25px;
+  }
+  .about-works.about-section {
+    margin-bottom: 25px;
   }
 
   .about-copy {
