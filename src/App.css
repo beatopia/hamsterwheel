@@ -1,11 +1,13 @@
 @font-face {
   font-family: "VHS Gothic";
   src: url("/media/fonts/vhs_gothic/vhs-gothic.ttf") format("truetype");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "LinLibertine R";
   src: url("/media/fonts/LinLibertine_R.ttf") format("truetype");
+  font-display: swap;
 }
 
 @font-face {
