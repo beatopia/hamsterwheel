@@ -20,7 +20,12 @@ const previousInternships = [
   {
     name: 'Northrop Grumman',
     logo: '/media/images/northroplogo.png',
-    role: 'Embedded Systems Mentee (HIP)',
+    role: 'Embedded Systems Intern, HIP Program',
+  },
+  {
+    name: 'Code Ninjas',
+    logo: '/media/images/codeninjaslogo.png',
+    role: 'K-12 Coding Instructor',
   },
 ];
 
