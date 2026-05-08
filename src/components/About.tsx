@@ -131,7 +131,7 @@ export default function About({ setPage }: PageProps) {
       </div>
 
       <p className="about-copy about-section about-copy--spaced about-inter">
-        I enjoy building tools that help myself and others be more productive, and love
+        I enjoy building tools that help me (and others) be more productive, and love
         the process of engineering. You can find my{' '}
         <Link to="/projects" onClick={(event) => playEggAndNavigate(event, '/projects')}>
           full projects list here
