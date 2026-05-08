@@ -84,6 +84,46 @@ export default function About({ setPage }: PageProps) {
         about music. I&apos;m pretty enamored with my favorite songs, so check out my{' '}
         <Link to="/blog">blog</Link> if you get a chance! :3
       </p>
+
+      <div className="about-footer">
+        <p className="about-footer-label about-inter">Find me on</p>
+        <div className="about-footer-links">
+          <a
+            href="https://github.com/beatopia"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="about-footer-link about-inter"
+            aria-label="GitHub"
+          >
+            <img
+              src="/media/images/githublogo.png"
+              alt="GitHub logo"
+              className="about-footer-icon"
+            />
+            GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/kailuzniak/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="about-footer-link about-inter"
+            aria-label="LinkedIn"
+          >
+            <img
+              src="/media/images/linkedinlogo.webp"
+              alt="LinkedIn logo"
+              className="about-footer-icon"
+            />
+            LinkedIn
+          </a>
+        </div>
+        <p className="about-footer-email about-inter">
+          or mail me at{' '}
+          <a href="mailto:kailuzniak@gmail.com" className="about-inter">
+            kailuzniak@gmail.com
+          </a>
+        </p>
+      </div>
     </section>
   );
 }
