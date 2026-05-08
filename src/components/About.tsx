@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface PageProps {
   setPage: () => void;
@@ -22,9 +22,60 @@ const previousInternships = [
 ];
 
 export default function About({ setPage }: PageProps) {
+  const navigate = useNavigate();
+  const eggAudioRef = React.useRef<HTMLAudioElement | null>(null);
+  const audioCtxRef = React.useRef<AudioContext | null>(null);
+
   React.useEffect(() => {
     setPage();
+    eggAudioRef.current = new Audio('/sounds/eggpop.mp3');
+    eggAudioRef.current.preload = 'auto';
+    eggAudioRef.current.volume = 1.0;
   }, [setPage]);
+
+  function ensureAudioContext() {
+    if (audioCtxRef.current) return;
+    try {
+      const C = (window.AudioContext || (window as any).webkitAudioContext);
+      if (!C) return;
+      audioCtxRef.current = new C();
+    } catch (error) {
+      audioCtxRef.current = null;
+    }
+  }
+
+  const playEggAndNavigate = (event: React.MouseEvent, to: string) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+
+    event.preventDefault();
+    ensureAudioContext();
+
+    const audioContext = audioCtxRef.current;
+    const audio = eggAudioRef.current;
+    if (audio && audioContext && audioContext.state === 'suspended') {
+      audioContext.resume().catch(() => {});
+    }
+
+    try {
+      if (audio && audioContext) {
+        try {
+          const source = audioContext.createMediaElementSource(audio);
+          source.connect(audioContext.destination);
+        } catch {}
+      }
+    } catch {}
+
+    try {
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      }
+    } catch {}
+
+    navigate(to);
+  };
 
   return (
     <section className="about-page" aria-labelledby="about-title">
@@ -68,7 +119,10 @@ export default function About({ setPage }: PageProps) {
       <p className="about-copy about-section about-copy--spaced about-inter">
         I am enthusiastic about building tools that help myself and others to be more
         productive and enjoy the process of crafting. You can find my{' '}
-        <Link to="/projects">full projects list here</Link>.
+        <Link to="/projects" onClick={(event) => playEggAndNavigate(event, '/projects')}>
+          full projects list here
+        </Link>
+        .
       </p>
 
       <p className="about-copy about-copy--spaced about-inter">
@@ -82,7 +136,10 @@ export default function About({ setPage }: PageProps) {
       <p className="about-copy about-inter">
         Outside of programming, I love exploring nature, climbing, cooking, and writing
         about music. I&apos;m pretty enamored with my favorite songs, so check out my{' '}
-        <Link to="/blog">blog</Link> if you get a chance! :3
+        <Link to="/blog" onClick={(event) => playEggAndNavigate(event, '/blog')}>
+          blog
+        </Link>{' '}
+        if you get a chance! :3
       </p>
 
       <div className="about-footer">

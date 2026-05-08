@@ -217,6 +217,9 @@ nav a:hover {
 /* Make the middle 'works' block spacing match paragraph spacing */
 .about-works {
   margin: 25px 0; /* match `.about-copy--spaced` 25px spacing */
+  padding: 20px 0;
+  border-top: 1px solid rgba(249, 232, 201, 0.2);
+  border-bottom: 1px solid rgba(249, 232, 201, 0.2);
 }
 
 /* Section spacing: each logical section gets a consistent two-line gap */
@@ -428,6 +431,9 @@ nav a:hover {
 
   .about-works {
     margin: 25px 0;
+    padding: 20px 0;
+    border-top: 1px solid rgba(249, 232, 201, 0.2);
+    border-bottom: 1px solid rgba(249, 232, 201, 0.2);
   }
 
   .about-title.about-section {
