@@ -3,6 +3,11 @@
   src: url("/media/fonts/vhs_gothic/vhs-gothic.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "LinLibertine R";
+  src: url("/media/fonts/LinLibertine_R.ttf") format("truetype");
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -142,6 +147,105 @@ nav a:hover {
   box-sizing: border-box;
 }
 
+.about-page {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  font-family: "LinLibertine R", serif;
+  font-size: calc(1.3rem - 2px);
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+.about-page * {
+  font-weight: 400;
+}
+
+.about-kicker {
+  margin: 0 0 12px;
+  font-size: 1.3rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(249, 232, 201, 0.65);
+}
+
+.about-title {
+  margin: 0 0 28px;
+  font-size: inherit;
+  line-height: inherit;
+  color: #f9e8c9;
+}
+
+.about-group {
+  margin-bottom: 8px;
+}
+
+.about-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.about-label {
+  margin: 0;
+  font-size: inherit;
+  color: rgba(249, 232, 201, 0.88);
+}
+
+.about-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(249, 232, 201, 0.55);
+  border-radius: 4px;
+  padding: 5px 9px 5px 8px;
+  background: rgba(249, 232, 201, 0.1);
+  color: #f9e8c9;
+  font-size: inherit;
+  line-height: inherit;
+  width: fit-content;
+}
+
+.about-chip span {
+  font-size: calc(0.92rem - 2px);
+  opacity: 0.72;
+}
+
+.about-group--interned {
+  margin-bottom: 20px;
+}
+
+.about-chip--featured {
+  border-color: rgba(249, 232, 201, 0.55);
+  background: rgba(249, 232, 201, 0.1);
+}
+
+.about-chip-logo {
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  flex: 0 0 auto;
+  opacity: 0.85;
+  filter: brightness(0.88) saturate(0.9);
+}
+
+.about-copy {
+  margin: 0 0 20px;
+  font-size: inherit;
+  line-height: inherit;
+  color: rgba(249, 232, 201, 0.88);
+}
+
+.about-copy a {
+  color: #f9e8c9;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.about-copy a:hover {
+  color: #e2b88d;
+}
+
 /* Mobile responsive design */
 @media (max-width: 768px) {
   .page-frame {
@@ -206,5 +310,13 @@ nav a:hover {
   .content-section {
     padding: 20px;
     min-height: calc(100vh - 130px);
+  }
+
+  .about-title {
+    margin-bottom: 22px;
+  }
+
+  .about-copy {
+    font-size: inherit;
   }
 }
