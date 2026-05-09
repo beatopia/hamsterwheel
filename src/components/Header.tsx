@@ -68,7 +68,7 @@ export default function Header({ currentPage, onSetPage }: { currentPage: string
     <div className="top-section">
       <div className="intro">
         <div className="name">Kai Luzniak</div>
-        <div className="tagline">Computer Science Student</div>
+        <div className="tagline">CS Student & Full-Stack Developer</div>
       </div>
       <a href="/" className="hamster-link" onClick={(e) => playThenNavigate(e, '/', eggAudioRef.current, 'home')}>
         <img className="hamster" src="/media/gifs/hamster-spins.gif" alt="spinning hamster" />

@@ -94,7 +94,7 @@ body {
 
 .name {
   font-family: "VHS Gothic", serif;
-  font-size: 3.15rem;
+  font-size: 3.0rem;
   font-weight: bold;
   color: #3a2317;
   margin: 0;
@@ -103,7 +103,7 @@ body {
 
 .tagline {
   font-family: "VHS Gothic", serif;
-  font-size: 1.22rem;
+  font-size: 1.0rem;
   color: #3a2317;
   margin: 4px 0 0 0;
 }
