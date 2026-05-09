@@ -171,9 +171,14 @@ nav a:hover {
 
 .content-section {
   width: 100%;
-  background: #3a2317;
+  background-color: #3a2317;
+  background-image: var(--welcome-image, url('/media/images/homehamster/welcome.png')), var(--body-image, url('/media/images/homehamster/body1.png')), var(--legs-image, url('/media/images/homehamster/legs1.png'));
+  background-position: center center, center center, center center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: contain, contain, contain;
+  background-origin: content-box;
   color: #f9e8c9;
-  padding: 40px;
+  padding: 48px;
   flex: 1;
   min-height: 400px;
   margin-top: 0;

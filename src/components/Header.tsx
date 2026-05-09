@@ -8,7 +8,7 @@ const links = [
   { href: '/blog', label: 'Blog' },
 ];
 
-export default function Header({ currentPage, onSetPage }: { currentPage: string; onSetPage: (p: string) => void; }) {
+export default function Header({ currentPage, onSetPage, onHamsterClick }: { currentPage: string; onSetPage: (p: string) => void; onHamsterClick: () => void; }) {
   const navigate = useNavigate();
   const clickAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const eggAudioRef = React.useRef<HTMLAudioElement | null>(null);
@@ -58,6 +58,10 @@ export default function Header({ currentPage, onSetPage }: { currentPage: string
       }
     } catch (err) {
       // ignore play errors
+    }
+
+    if (to === '/') {
+      onHamsterClick();
     }
 
     onSetPage(label ?? '');

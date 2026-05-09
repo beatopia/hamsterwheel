@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import Resume from './components/Resume';
@@ -10,27 +11,99 @@ import './App.css';
 
 
 function App() {
-  const [currentPage, setCurrentPage] = React.useState<string>("home");
-
-  
-
   return (
     <Router>
-      <div className="shell">
-        <div className="page-frame">
-          <Header currentPage={currentPage} onSetPage={(p) => setCurrentPage(p)} />
-          <div className="content-section">
-            <Routes>
-              <Route path="/" element={<Home setPage={() => setCurrentPage("home")} />} />
-              <Route path="/about" element={<About setPage={() => setCurrentPage("About")} />} />
-              <Route path="/resume" element={<Resume setPage={() => setCurrentPage("Resume")} />} />
-              <Route path="/projects" element={<Projects setPage={() => setCurrentPage("Projects")} />} />
-              <Route path="/blog" element={<Blog setPage={() => setCurrentPage("Blog")} />} />
-            </Routes>
-          </div>
+      <AppShell />
+    </Router>
+  );
+}
+
+function AppShell() {
+  const location = useLocation();
+  const [currentPage, setCurrentPage] = React.useState<string>("home");
+  const [legsFrame, setLegsFrame] = React.useState<number>(1);
+  const [bodyFrame, setBodyFrame] = React.useState<string>("/media/images/homehamster/body1.png");
+  const bodyTimeoutRef = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    const preloadSources = [
+      '/media/images/homehamster/welcome.png',
+      '/media/images/homehamster/body1.png',
+      '/media/images/homehamster/body2.png',
+      '/media/images/homehamster/legs1.png',
+      '/media/images/homehamster/legs2.png',
+      '/media/images/homehamster/legs3.png',
+      '/media/images/homehamster/legs4.png',
+      '/media/images/homehamster/legs5.png',
+      '/media/images/homehamster/legs6.png',
+    ];
+
+    const images = preloadSources.map((src) => {
+      const image = new Image();
+      image.src = src;
+      return image;
+    });
+
+    return () => {
+      images.forEach((image) => {
+        image.src = '';
+      });
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const updateLegsFrame = () => {
+      setLegsFrame(Math.floor(Math.random() * 6) + 1);
+    };
+
+    updateLegsFrame();
+    const intervalId = window.setInterval(updateLegsFrame, 1500);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  React.useEffect(() => {
+    return () => {
+      if (bodyTimeoutRef.current !== null) {
+        window.clearTimeout(bodyTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleHamsterClick = React.useCallback(() => {
+    setBodyFrame("/media/images/homehamster/body2.png");
+
+    if (bodyTimeoutRef.current !== null) {
+      window.clearTimeout(bodyTimeoutRef.current);
+    }
+
+    bodyTimeoutRef.current = window.setTimeout(() => {
+      setBodyFrame("/media/images/homehamster/body1.png");
+      bodyTimeoutRef.current = null;
+    }, 500);
+  }, []);
+
+  const contentStyle = {
+    '--welcome-image': location.pathname === '/' ? `url('/media/images/homehamster/welcome.png')` : 'none',
+    '--body-image': location.pathname === '/' ? `url('${bodyFrame}')` : 'none',
+    '--legs-image': location.pathname === '/' ? `url('/media/images/homehamster/legs${legsFrame}.png')` : 'none',
+  } as React.CSSProperties;
+
+  return (
+    <div className="shell">
+      <div className="page-frame">
+        <Header currentPage={currentPage} onSetPage={(p) => setCurrentPage(p)} onHamsterClick={handleHamsterClick} />
+        <div className="content-section" style={contentStyle}>
+          <Routes>
+            <Route path="/" element={<Home setPage={() => setCurrentPage("home")} />} />
+            <Route path="/about" element={<About setPage={() => setCurrentPage("About")} />} />
+            <Route path="/resume" element={<Resume setPage={() => setCurrentPage("Resume")} />} />
+            <Route path="/projects" element={<Projects setPage={() => setCurrentPage("Projects")} />} />
+            <Route path="/blog" element={<Blog setPage={() => setCurrentPage("Blog")} />} />
+          </Routes>
         </div>
       </div>
-    </Router>
+    </div>
   );
 }
 
