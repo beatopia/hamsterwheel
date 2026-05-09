@@ -60,7 +60,7 @@ export default function Header({ currentPage, onSetPage, onHamsterClick }: { cur
       // ignore play errors
     }
 
-    if (to === '/') {
+    if (to === '/' && currentPage === 'home') {
       onHamsterClick();
     }
 

@@ -25,6 +25,16 @@ function AppShell() {
   const [bodyFrame, setBodyFrame] = React.useState<string>("/media/images/homehamster/body1.png");
   const bodyTimeoutRef = React.useRef<number | null>(null);
 
+  const pickDifferentLegFrame = React.useCallback((currentFrame: number) => {
+    let nextFrame = currentFrame;
+
+    while (nextFrame === currentFrame) {
+      nextFrame = Math.floor(Math.random() * 6) + 1;
+    }
+
+    return nextFrame;
+  }, []);
+
   React.useEffect(() => {
     const preloadSources = [
       '/media/images/homehamster/welcome.png',
@@ -52,15 +62,13 @@ function AppShell() {
   }, []);
 
   React.useEffect(() => {
-    const updateLegsFrame = () => {
-      setLegsFrame(Math.floor(Math.random() * 6) + 1);
-    };
-
-    updateLegsFrame();
-    const intervalId = window.setInterval(updateLegsFrame, 1500);
+    setLegsFrame((currentFrame) => pickDifferentLegFrame(currentFrame));
+    const intervalId = window.setInterval(() => {
+      setLegsFrame((currentFrame) => pickDifferentLegFrame(currentFrame));
+    }, 200);
 
     return () => window.clearInterval(intervalId);
-  }, []);
+  }, [pickDifferentLegFrame]);
 
   React.useEffect(() => {
     return () => {
