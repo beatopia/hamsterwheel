@@ -36,8 +36,19 @@ export default function Header({ currentPage, onSetPage, onHamsterClick }: { cur
     };
 
     fitTagline();
+
+    const observer = new ResizeObserver(() => {
+      window.requestAnimationFrame(fitTagline);
+    });
+
+    if (nameRef.current) observer.observe(nameRef.current);
+    if (taglineRef.current) observer.observe(taglineRef.current);
+
     window.addEventListener('resize', fitTagline);
-    return () => window.removeEventListener('resize', fitTagline);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', fitTagline);
+    };
   }, []);
 
   function ensureAudioContext() {
