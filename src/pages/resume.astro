@@ -3,4 +3,86 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Resume - Kai Luzniak" currentPage="Resume">
+	<section class="resume-page" aria-labelledby="resume-title">
+		<div class="resume-header">
+			<p class="about-kicker">Resume</p>
+			<a class="resume-download" href="/media/images/Kai_Luzniak_Resume.pdf" target="_blank" rel="noreferrer">
+				Open PDF
+			</a>
+		</div>
+
+		<div class="resume-frame-wrap">
+			<iframe
+				src="/media/images/Kai_Luzniak_Resume.pdf"
+				title="Kai Luzniak Resume PDF"
+				class="resume-frame"
+			></iframe>
+		</div>
+	</section>
 </Layout>
+
+<style>
+	.resume-page {
+		width: min(760px, 100%);
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		color: #f9e8c9;
+		font-family: "LinLibertine R", serif;
+		font-size: calc(1.3rem - 2px);
+		line-height: 1.45;
+		font-weight: 400;
+	}
+
+	.resume-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		flex-wrap: wrap;
+	}
+
+	.about-kicker {
+		margin: 0;
+		font-size: 1.3rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: rgba(249, 232, 201, 0.65);
+		font-family: "LinLibertine R", serif;
+	}
+
+	.resume-download {
+		color: #f9e8c9;
+		text-decoration: underline;
+		text-underline-offset: 0.12em;
+		font-family: "LinLibertine R", serif;
+	}
+
+	.resume-title {
+		margin: 0;
+		font-size: inherit;
+		line-height: inherit;
+		color: #f9e8c9;
+	}
+
+	.resume-title.resume-section {
+		margin-bottom: 25px;
+	}
+
+	.resume-frame-wrap {
+		width: 100%;
+		min-height: 78vh;
+		border: 1px solid rgba(249, 232, 201, 0.2);
+		border-radius: 8px;
+		overflow: hidden;
+		background: rgba(249, 232, 201, 0.04);
+	}
+
+	.resume-frame {
+		width: 100%;
+		height: 78vh;
+		border: 0;
+		display: block;
+	}
+</style>
