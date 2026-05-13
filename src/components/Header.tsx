@@ -13,6 +13,9 @@ export default function Header({ currentPage, onSetPage, onHamsterClick }: { cur
   const clickAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const eggAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = React.useRef<AudioContext | null>(null);
+  const nameRef = React.useRef<HTMLDivElement | null>(null);
+  const taglineRef = React.useRef<HTMLDivElement | null>(null);
+  const [taglineScale, setTaglineScale] = React.useState(1);
 
   React.useEffect(() => {
     clickAudioRef.current = new Audio('/sounds/eggpop.mp3');
@@ -21,6 +24,20 @@ export default function Header({ currentPage, onSetPage, onHamsterClick }: { cur
     eggAudioRef.current.preload = 'auto';
     clickAudioRef.current.volume = 1.0;
     eggAudioRef.current.volume = 1.0;
+  }, []);
+
+  React.useLayoutEffect(() => {
+    const fitTagline = () => {
+      if (!nameRef.current || !taglineRef.current) return;
+      const nameWidth = nameRef.current.offsetWidth;
+      const taglineWidth = taglineRef.current.scrollWidth;
+      if (!nameWidth || !taglineWidth) return;
+      setTaglineScale(nameWidth / taglineWidth);
+    };
+
+    fitTagline();
+    window.addEventListener('resize', fitTagline);
+    return () => window.removeEventListener('resize', fitTagline);
   }, []);
 
   function ensureAudioContext() {
@@ -71,8 +88,14 @@ export default function Header({ currentPage, onSetPage, onHamsterClick }: { cur
   return (
     <div className="top-section">
       <div className="intro">
-        <div className="name">Kai Luzniak</div>
-        <div className="tagline">CS Student & Full-Stack Developer</div>
+        <div className="name" ref={nameRef}>Kai Luzniak</div>
+        <div
+          className="tagline"
+          ref={taglineRef}
+          style={{ transform: `scaleX(${taglineScale})` }}
+        >
+          CS Student & Software Developer
+        </div>
       </div>
       <a href="/" className="hamster-link" onClick={(e) => playThenNavigate(e, '/', eggAudioRef.current, 'home')}>
         <img className="hamster" src="/media/gifs/hamster-spins.gif" alt="spinning hamster" />

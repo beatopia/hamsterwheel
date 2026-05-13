@@ -106,6 +106,8 @@ body {
   font-size: 1.0rem;
   color: #3a2317;
   margin: 4px 0 0 0;
+  transform-origin: right center;
+  white-space: nowrap;
 }
 
 .hamster-link {
