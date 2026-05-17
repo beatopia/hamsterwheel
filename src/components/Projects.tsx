@@ -14,6 +14,7 @@ export default function Projects({ setPage }: PageProps) {
       title: 'Slug Gaming Website',
       subtitle: 'React, JavaScript, Node.js, Tailwind CSS, Git, Figma',
       cover: '/media/images/projects/sluggaming/sluggamingcover.jpg',
+      href: 'https://www.sluggaming.club/',
     },
     { id: 'undoc-1', title: 'Undocumented Project', subtitle: '' },
     { id: 'undoc-2', title: 'Undocumented Project', subtitle: '' },
@@ -31,7 +32,13 @@ export default function Projects({ setPage }: PageProps) {
           <article key={p.id} className="project-card" role="listitem">
             <div className="project-visual">
               {('cover' in p && p.cover) ? (
-                <img src={p.cover} alt={`${p.title} cover`} className="project-image" loading="lazy" />
+                'href' in p && p.href ? (
+                  <a href={p.href} target="_blank" rel="noreferrer" aria-label={`Open ${p.title}`}>
+                    <img src={p.cover} alt={`${p.title} cover`} className="project-image" loading="lazy" />
+                  </a>
+                ) : (
+                  <img src={p.cover} alt={`${p.title} cover`} className="project-image" loading="lazy" />
+                )
               ) : null}
             </div>
             <div className="project-body">
