@@ -1,7 +1,5 @@
 # luzniak.dev
 
-This is my personal website :P
+This is my personal website to host my resume, projects, blog posts, etc.
 
-I’m building it as a place to host my resume, projects, blog posts, and anything else I find cool.
-
-Built with Astro and React, hosted on Cloudflare!
+Built with Astro and React, hosted on Cloudflare.
