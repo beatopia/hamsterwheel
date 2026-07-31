@@ -5,11 +5,20 @@ interface PageProps {
   setPage: () => void;
 }
 
-const currentProject = {
-  name: 'Slug Gaming',
-  logo: '/media/images/sluggaminglogo.png',
-  role: 'Web Developer',
-};
+const currentProjects = [
+  {
+    name: 'Slug Gaming',
+    logo: '/media/images/sluggaminglogo.png',
+    role: 'Web Developer',
+    featured: true,
+  },
+  {
+    name: 'Tech4Good Lab',
+    logo: '/media/images/tech4goodlogo.png',
+    role: 'Web Developer',
+    featured: false,
+  },
+];
 
 const previousInternships = [
   {
@@ -96,19 +105,22 @@ export default function About({ setPage }: PageProps) {
         <div className="about-group">
           <div className="about-line">
             <p className="about-label about-inter">Currently building</p>
-            <div
-              className="about-chip about-chip--featured"
-              aria-label={`Slug Gaming, ${currentProject.role}`}
-              data-role={currentProject.role}
-              tabIndex={0}
-            >
-              <img
-                src={currentProject.logo}
-                alt="Slug Gaming logo"
-                className="about-chip-logo"
-              />
-              <span className="about-inter">{currentProject.name}</span>
-            </div>
+            {currentProjects.map((company) => (
+              <div
+                key={company.name}
+                className={company.featured ? 'about-chip about-chip--featured' : 'about-chip'}
+                aria-label={`${company.name}, ${company.role}`}
+                data-role={company.role}
+                tabIndex={0}
+              >
+                <img
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  className="about-chip-logo"
+                />
+                <span className="about-inter">{company.name}</span>
+              </div>
+            ))}
           </div>
         </div>
 
