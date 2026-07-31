@@ -108,6 +108,7 @@ function AppShell() {
             <Route path="/resume" element={<Resume setPage={() => setCurrentPage("Resume")} />} />
             <Route path="/projects" element={<Projects setPage={() => setCurrentPage("Projects")} />} />
             <Route path="/blog" element={<Blog setPage={() => setCurrentPage("Blog")} />} />
+            <Route path="/blog/:slug" element={<Blog setPage={() => setCurrentPage("Blog")} />} />
           </Routes>
         </div>
       </div>

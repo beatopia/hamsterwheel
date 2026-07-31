@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface PageProps {
   setPage: () => void;
@@ -13,35 +14,52 @@ type Post = {
   content?: string;
 };
 
+const posts: Post[] = [
+  {
+    id: 'modern-react-patterns',
+    title: 'Modern React Patterns',
+    date: '2026-05-01',
+    image: '/media/images/projects/sluggaming/sluggamingcover.jpg',
+    excerpt: 'A short tour through hooks, suspense, and patterns I use every day.',
+    content:
+      'This is a starter post body. Replace it with your own writing, and the page will render it as paragraphs separated by blank lines.\n\nYou can keep using the excerpt for the card view and put the full post here for the dedicated blog page.',
+  },
+  {
+    id: 'building-sluggaming',
+    title: 'Building the Slug Gaming Website',
+    date: '2025-11-12',
+    image: '/media/images/projects/sluggaming/sluggamingcover.jpg',
+    excerpt: 'How I put together the Slug Gaming site and the stack choices behind it.',
+    content:
+      'This is the second starter post body. It should be replaced with the real article text when you are ready.\n\nThe important part is that the slug becomes the URL, so the page can live at /blog/building-sluggaming.',
+  },
+];
+
+function slugify(input: string) {
+  return input
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 export default function Blog({ setPage }: PageProps) {
+  const navigate = useNavigate();
+  const { slug } = useParams();
+
   React.useEffect(() => {
     setPage();
   }, [setPage]);
 
   const [query, setQuery] = React.useState('');
 
-  // Example posts — add new posts at the top (newest first)
-  const posts: Post[] = [
-    {
-      id: '2026-05-01-modern-react-patterns',
-      title: 'Modern React Patterns',
-      date: '2026-05-01',
-      image: '/media/images/projects/sluggaming/sluggamingcover.jpg',
-      excerpt: 'A short tour through hooks, suspense, and patterns I use every day.',
-      content: 'Full post content goes here...',
-    },
-    {
-      id: '2025-11-12-building-sluggaming',
-      title: 'Building the Slug Gaming Website',
-      date: '2025-11-12',
-      image: '/media/images/projects/sluggaming/sluggamingcover.jpg',
-      excerpt: 'How I put together the Slug Gaming site and the stack choices behind it.',
-      content: 'Full post content goes here...'
-    },
-  ];
-
   // Sort posts newest first by date (ISO strings compare correctly)
   const sorted = React.useMemo(() => [...posts].sort((a, b) => (b.date.localeCompare(a.date))), [posts]);
+
+  const currentPost = React.useMemo(() => {
+    if (!slug) return undefined;
+    return sorted.find((post) => post.id === slug || slugify(post.title) === slug);
+  }, [slug, sorted]);
 
   const filtered = React.useMemo(() => {
     if (!query.trim()) return sorted;
@@ -49,10 +67,41 @@ export default function Blog({ setPage }: PageProps) {
     return sorted.filter((p) => (p.title + ' ' + (p.excerpt || '') + ' ' + (p.content || '')).toLowerCase().includes(q));
   }, [query, sorted]);
 
-  const handleNavClick = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const openPost = (post: Post) => {
+    navigate(`/blog/${slugify(post.title)}`);
   };
+
+  const closePost = () => {
+    navigate('/blog');
+  };
+
+  if (currentPost) {
+    const bodyParagraphs = (currentPost.content || currentPost.excerpt || '')
+      .split(/\n\n+/)
+      .filter(Boolean);
+
+    return (
+      <section className="about-page blog-page" aria-labelledby="blog-title">
+        <p className="about-kicker">BLOG</p>
+        <div className="blog-detail-header about-section">
+          <button type="button" className="blog-back about-inter" onClick={closePost}>
+            Back to all posts
+          </button>
+          <h1 id="blog-title" className="about-title about-inter">{currentPost.title}</h1>
+          <p className="about-label post-date">{new Date(currentPost.date).toLocaleDateString()}</p>
+        </div>
+
+        <article className="blog-detail">
+          <img className="post-image blog-detail-image" src={currentPost.image} alt={currentPost.title} />
+          {bodyParagraphs.map((paragraph, index) => (
+            <p key={index} className="about-copy blog-detail-paragraph">
+              {paragraph}
+            </p>
+          ))}
+        </article>
+      </section>
+    );
+  }
 
   return (
     <section className="about-page blog-page" aria-labelledby="blog-title">
@@ -76,16 +125,15 @@ export default function Blog({ setPage }: PageProps) {
           {filtered.map((post) => (
             <article
               key={post.id}
-              id={post.id}
               className="post"
               aria-labelledby={`${post.id}-title`}
               tabIndex={0}
               role="link"
-              onClick={() => handleNavClick(post.id)}
+              onClick={() => openPost(post)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  handleNavClick(post.id);
+                  openPost(post);
                 }
               }}
             >
@@ -106,7 +154,7 @@ export default function Blog({ setPage }: PageProps) {
             <div className="about-label" style={{ marginBottom: 10 }}>Jump to</div>
             <div className="blog-toc" role="navigation">
               {sorted.map((p) => (
-                <button key={p.id} className="blog-toc-item about-inter" onClick={() => handleNavClick(p.id)}>
+                <button key={p.id} className="blog-toc-item about-inter" onClick={() => openPost(p)}>
                   <div className="blog-toc-title">{p.title}</div>
                   <div className="blog-toc-date">{new Date(p.date).toLocaleDateString()}</div>
                 </button>

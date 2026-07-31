@@ -216,10 +216,6 @@ nav a:hover {
   color: #f9e8c9;
 }
 
-/* spacing before and after works block matches paragraph spacing */
-.about-title.about-section {
-  margin-bottom: 25px;
-}
 .about-works.about-section {
   margin-bottom: 25px;
 }
@@ -649,6 +645,42 @@ nav a:hover {
   width: min(760px, 100%);
   margin: 0 auto;
   font-family: "LinLibertine R", serif;
+}
+
+.blog-detail-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.blog-back {
+  align-self: flex-start;
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: rgba(249, 232, 201, 0.88);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  cursor: pointer;
+  font: inherit;
+}
+
+.blog-back:hover {
+  color: #e2b88d;
+}
+
+.blog-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.blog-detail-image {
+  margin-bottom: 0;
+}
+
+.blog-detail-paragraph {
+  margin-bottom: 0;
 }
 
 .blog-controls {
