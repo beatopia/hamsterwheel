@@ -8,19 +8,19 @@ interface PageProps {
 const currentProject = {
   name: 'Slug Gaming',
   logo: '/media/images/sluggaminglogo.png',
-  role: 'Website Developer',
+  role: 'Web Developer',
 };
 
 const previousInternships = [
   {
     name: 'Boeing',
     logo: '/media/images/boeinglogo.png',
-    role: 'Program Management Intern',
+    role: 'Technical Program Management Intern',
   },
   {
     name: 'Northrop Grumman',
     logo: '/media/images/northroplogo.png',
-    role: 'Embedded Systems Intern, HIP Program',
+    role: 'Embedded Software Engineer Mentee (HIP)',
   },
   {
     name: 'Code Ninjas',
