@@ -23,8 +23,8 @@ export default function Header({ currentPage, onSetPage, onHamsterClick }: { cur
     eggAudioRef.current = new Audio('/sounds/sqek.mp3');
     clickAudioRef.current.preload = 'auto';
     eggAudioRef.current.preload = 'auto';
-    clickAudioRef.current.volume = 1.0;
-    eggAudioRef.current.volume = 1.0;
+    clickAudioRef.current.volume = 0.5;
+    eggAudioRef.current.volume = 0.5;
   }, []);
 
   React.useLayoutEffect(() => {
