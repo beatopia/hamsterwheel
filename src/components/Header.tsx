@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const links = [
   { href: '/about', label: 'About' },
@@ -10,6 +10,7 @@ const links = [
 
 export default function Header({ currentPage, onSetPage, onHamsterClick }: { currentPage: string; onSetPage: (p: string) => void; onHamsterClick: () => void; }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const clickAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const eggAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = React.useRef<AudioContext | null>(null);

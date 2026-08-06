@@ -173,6 +173,7 @@ nav a:hover {
 }
 
 .content-section {
+  position: relative;
   width: 100%;
   background-color: #3a2317;
   background-image: var(--welcome-image, url('/media/images/homehamster/welcome.png')), var(--body-image, url('/media/images/homehamster/body1.png')), var(--legs-image, url('/media/images/homehamster/legs1.png'));
