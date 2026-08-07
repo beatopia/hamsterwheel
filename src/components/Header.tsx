@@ -1,5 +1,6 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { createAudio } from '../utils/audio.ts';
 
 const links = [
   { href: '/about', label: 'About' },
@@ -10,7 +11,6 @@ const links = [
 
 export default function Header({ currentPage, onSetPage, onHamsterClick }: { currentPage: string; onSetPage: (p: string) => void; onHamsterClick: () => void; }) {
   const navigate = useNavigate();
-  const location = useLocation();
   const clickAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const eggAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = React.useRef<AudioContext | null>(null);
@@ -19,12 +19,8 @@ export default function Header({ currentPage, onSetPage, onHamsterClick }: { cur
   const [taglineScale, setTaglineScale] = React.useState(1);
 
   React.useEffect(() => {
-    clickAudioRef.current = new Audio('/sounds/eggpop.mp3');
-    eggAudioRef.current = new Audio('/sounds/sqek.mp3');
-    clickAudioRef.current.preload = 'auto';
-    eggAudioRef.current.preload = 'auto';
-    clickAudioRef.current.volume = 0.5;
-    eggAudioRef.current.volume = 0.5;
+    clickAudioRef.current = createAudio('/sounds/eggpop.mp3');
+    eggAudioRef.current = createAudio('/sounds/sqek.mp3');
   }, []);
 
   React.useLayoutEffect(() => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { createAudio } from '../utils/audio.ts';
 
 interface PageProps {
   setPage: () => void;
@@ -45,9 +46,7 @@ export default function About({ setPage }: PageProps) {
 
   React.useEffect(() => {
     setPage();
-    eggAudioRef.current = new Audio('/sounds/eggpop.mp3');
-    eggAudioRef.current.preload = 'auto';
-    eggAudioRef.current.volume = 1.0;
+    eggAudioRef.current = createAudio('/sounds/eggpop.mp3');
   }, [setPage]);
 
   function ensureAudioContext() {
