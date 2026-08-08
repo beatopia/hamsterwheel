@@ -97,7 +97,7 @@ export default function About({ setPage }: PageProps) {
     <section className="about-page" aria-labelledby="about-title">
       <p className="about-kicker">About</p>
       <h1 id="about-title" className="about-title about-inter">
-        Hey! I&apos;m Kai Luzniak, a curious, growth-oriented CS student who enjoys working with others!
+        Hey! I&apos;m Kai Luzniak, a curious CS student who is always looking for ways to learn and improve.
       </h1>
 
       <div className="about-section about-works">
