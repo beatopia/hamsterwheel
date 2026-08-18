@@ -387,13 +387,24 @@ nav a:hover {
   color: rgba(249, 232, 201, 0.88);
 }
 
-.about-footer-email a {
+.about-email-button {
   color: #f9e8c9;
   text-decoration: underline;
   text-underline-offset: 0.12em;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
 }
 
-.about-footer-email a:hover {
+.about-email-button:hover,
+.about-email-button:focus-visible {
+  color: #e2b88d;
+}
+
+.about-email-status {
+  margin-left: 8px;
   color: #e2b88d;
 }
 

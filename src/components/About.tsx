@@ -41,6 +41,7 @@ const previousInternships = [
 
 export default function About({ setPage }: PageProps) {
   const navigate = useNavigate();
+  const [emailCopied, setEmailCopied] = React.useState(false);
   const eggAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = React.useRef<AudioContext | null>(null);
 
@@ -91,6 +92,18 @@ export default function About({ setPage }: PageProps) {
     } catch {}
 
     navigate(to);
+  };
+
+  const copyEmail = async () => {
+    const email = ['kailuzniak', String.fromCharCode(64), 'gmail', String.fromCharCode(46), 'com'].join('');
+
+    try {
+      await navigator.clipboard.writeText(email);
+      setEmailCopied(true);
+      window.setTimeout(() => setEmailCopied(false), 2000);
+    } catch {
+      setEmailCopied(false);
+    }
   };
 
   return (
@@ -206,9 +219,12 @@ export default function About({ setPage }: PageProps) {
         </div>
         <p className="about-footer-email about-inter">
           or mail me at{' '}
-          <a href="mailto:kailuzniak@gmail.com" className="about-inter">
-            kailuzniak@gmail.com
-          </a>
+          <button type="button" className="about-email-button about-inter" onClick={copyEmail}>
+            kailuzniak [at] gmail [dot] com
+          </button>
+          <span className="about-email-status" role="status" aria-live="polite">
+            {emailCopied ? 'Copied!' : ''}
+          </span>
         </p>
       </div>
     </section>
