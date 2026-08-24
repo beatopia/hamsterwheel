@@ -204,6 +204,7 @@ nav a:hover {
 
 .about-kicker {
   margin: 0 0 12px;
+  font-family: "LinLibertine R", serif;
   font-size: 1.3rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -431,6 +432,7 @@ nav a:hover {
 
 .resume-kicker {
   margin: 0;
+  font-family: "LinLibertine R", serif;
   font-size: 1.3rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -760,6 +762,71 @@ nav a:hover {
   font-size: 1.3rem;
   text-decoration: underline;
   text-underline-offset: 0.14em;
+}
+
+.blog-collapsible-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.blog-collapsible {
+  width: 100%;
+}
+
+.blog-collapsible-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  color: #f9e8c9;
+  font-weight: 700;
+  line-height: 1.25;
+  user-select: none;
+}
+
+.blog-collapsible-summary::-webkit-details-marker {
+  display: none;
+}
+
+.blog-collapsible-summary::marker {
+  display: none;
+  content: "";
+}
+
+.blog-collapsible-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #f9e8c9;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+  transition: color 0.15s ease;
+}
+
+.blog-collapsible-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #f9e8c9;
+  transition: transform 0.15s ease, color 0.15s ease;
+  transform: rotate(-90deg);
+}
+
+.blog-collapsible[open] > .blog-collapsible-summary .blog-collapsible-arrow {
+  transform: rotate(0deg);
+}
+
+.blog-collapsible-summary:hover .blog-collapsible-title,
+.blog-collapsible-summary:hover .blog-collapsible-arrow {
+  color: #e2b88d;
+}
+
+.blog-collapsible-content {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .blog-list-markdown {
