@@ -225,12 +225,12 @@ export default function Blog({ setPage }: PageProps) {
   return (
     <section className="about-page blog-page" aria-labelledby="blog-title">
       <p className="about-kicker">BLOG</p>
-      <h1 id="blog-title" className="about-title about-section about-inter">Ever since I was 5, I dreamed of optimizing distributed systems at scale.</h1>
+      <h1 id="blog-title" className="about-title about-inter blog-home-title">Ever since I was 5, I dreamed of optimizing distributed systems at scale.</h1>
 
       <div className="blog-controls about-section">
-        <label style={{ display: 'block', marginBottom: 8 }} htmlFor="blog-search">Search posts</label>
         <input
           id="blog-search"
+          aria-label="Search posts"
           className="blog-search about-inter"
           placeholder="Search by title or content"
           value={query}

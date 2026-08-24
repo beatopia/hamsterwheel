@@ -235,7 +235,7 @@ nav a:hover {
 
 /* Section spacing: each logical section gets a consistent two-line gap */
 .about-section {
-  margin-bottom: 43px; /* reduced 5px */
+  margin-bottom: 25px; /* reduced 5px */
 }
 
 .about-line {
@@ -659,6 +659,10 @@ nav a:hover {
   font-family: "LinLibertine R", serif;
 }
 
+.blog-home-title {
+  margin-bottom: 20px;
+}
+
 .blog-detail-header {
   display: flex;
   flex-direction: column;
@@ -817,16 +821,12 @@ nav a:hover {
 .blog-sidebar-inner {
   position: sticky;
   top: 120px;
-  max-height: calc(100vh - 160px);
-  overflow: hidden;
 }
 
 .blog-toc {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  overflow-y: auto;
-  max-height: calc(100vh - 200px);
   padding-right: 6px;
 }
 
