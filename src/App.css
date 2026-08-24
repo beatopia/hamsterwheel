@@ -665,8 +665,30 @@ nav a:hover {
   gap: 10px;
 }
 
+.blog-detail-header.about-section {
+  margin-bottom: 20px;
+}
+
+.blog-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.blog-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.blog-title-row .about-title,
+.blog-header-top .about-kicker {
+  margin: 0;
+}
+
 .blog-back {
-  align-self: flex-start;
   border: none;
   background: transparent;
   padding: 0;
@@ -679,6 +701,13 @@ nav a:hover {
 
 .blog-back:hover {
   color: #e2b88d;
+}
+
+@media (max-width: 720px) {
+  .blog-header-top,
+  .blog-title-row {
+    flex-wrap: wrap;
+  }
 }
 
 .blog-detail {

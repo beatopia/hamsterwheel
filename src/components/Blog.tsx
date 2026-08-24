@@ -21,6 +21,42 @@ const postFiles = import.meta.glob('../content/blog/*.md', {
   import: 'default',
   query: '?raw',
 }) as Record<string, string>;
+const blogImageFiles = import.meta.glob('../content/blog/blog-images/*', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+function resolveBlogImagePath(image?: string) {
+  if (!image) return DEFAULT_POST_IMAGE;
+
+  const normalized = image.trim().replace(/\\/g, '/');
+  if (!normalized) return DEFAULT_POST_IMAGE;
+
+  if (
+    normalized.startsWith('/')
+    || normalized.startsWith('http://')
+    || normalized.startsWith('https://')
+    || normalized.startsWith('data:')
+    || normalized.startsWith('blob:')
+  ) {
+    return normalized;
+  }
+
+  const withoutSrcPrefix = normalized.replace(/^src\//, '');
+  const candidates = [
+    normalized,
+    `../${withoutSrcPrefix}`,
+    `../content/blog/${normalized.replace(/^\.\//, '')}`,
+  ];
+
+  for (const candidate of candidates) {
+    if (blogImageFiles[candidate]) {
+      return blogImageFiles[candidate];
+    }
+  }
+
+  return DEFAULT_POST_IMAGE;
+}
 
 function slugify(input: string) {
   return input
@@ -89,7 +125,7 @@ function buildPostsFromMarkdown(): Post[] {
       slug,
       title: frontmatter.title || titleFromContent(content) || toTitleFromSlug(slug),
       date: frontmatter.date || today,
-      image: frontmatter.image || DEFAULT_POST_IMAGE,
+      image: resolveBlogImagePath(frontmatter.image),
       excerpt,
       content,
     };
@@ -141,17 +177,20 @@ export default function Blog({ setPage }: PageProps) {
   if (currentPost) {
     return (
       <section className="about-page blog-page" aria-labelledby="blog-title">
-        <p className="about-kicker">BLOG</p>
         <div className="blog-detail-header about-section">
-          <button type="button" className="blog-back about-inter" onClick={closePost}>
-            Back to all posts
-          </button>
-          <h1 id="blog-title" className="about-title about-inter">{currentPost.title}</h1>
-          <p className="about-label post-date">{formatDate(currentPost.date)}</p>
+          <div className="blog-header-top">
+            <p className="about-kicker">BLOG</p>
+            <button type="button" className="blog-back about-inter" onClick={closePost}>
+              Back to all posts
+            </button>
+          </div>
+          <div className="blog-title-row">
+            <h1 id="blog-title" className="about-title about-inter">{currentPost.title}</h1>
+            <p className="about-label post-date">{formatDate(currentPost.date)}</p>
+          </div>
         </div>
 
         <article className="blog-detail">
-          <img className="post-image blog-detail-image" src={currentPost.image} alt={currentPost.title} />
           <div className="blog-markdown">
             <ReactMarkdown
               components={{
@@ -160,6 +199,14 @@ export default function Blog({ setPage }: PageProps) {
                 h3: ({ children }) => <h3 className="about-label">{children}</h3>,
                 ul: ({ children }) => <ul className="about-copy blog-list-markdown">{children}</ul>,
                 ol: ({ children }) => <ol className="about-copy blog-list-markdown">{children}</ol>,
+                img: ({ src, alt }) => (
+                  <img
+                    className="post-image blog-detail-image"
+                    src={resolveBlogImagePath(src)}
+                    alt={alt || 'Blog image'}
+                    loading="lazy"
+                  />
+                ),
                 a: ({ children, href }) => (
                   <a href={href} target="_blank" rel="noreferrer" className="blog-inline-link">
                     {children}
@@ -178,7 +225,7 @@ export default function Blog({ setPage }: PageProps) {
   return (
     <section className="about-page blog-page" aria-labelledby="blog-title">
       <p className="about-kicker">BLOG</p>
-      <h1 id="blog-title" className="about-title about-section about-inter">Ever since I was 5, I dreamed of optimizing distributed systems at scale. /srs!</h1>
+      <h1 id="blog-title" className="about-title about-section about-inter">Ever since I was 5, I dreamed of optimizing distributed systems at scale.</h1>
 
       <div className="blog-controls about-section">
         <label style={{ display: 'block', marginBottom: 8 }} htmlFor="blog-search">Search posts</label>

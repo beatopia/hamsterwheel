@@ -22,6 +22,20 @@ excerpt: One short sentence shown on the blog card.
 ---
 ```
 
+`image` in frontmatter is used for the blog card/cover image only.
+
+To add images inside the blog post body, use normal markdown image syntax where you want the image to appear:
+
+```md
+![Queue monitor match found](blog-images/ow-queue-monitor-matchfound.png)
+```
+
+Supported body image paths include:
+
+- `blog-images/my-image.png` (from `src/content/blog/blog-images`)
+- `/media/images/...` (from `public/media/images`)
+- `https://...` (external URLs)
+
 3. Write the post body in markdown.
 
 The filename becomes the URL slug automatically (`my-new-post.md` -> `/blog/my-new-post`).
