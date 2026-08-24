@@ -695,6 +695,26 @@ nav a:hover {
   margin-bottom: 0;
 }
 
+.blog-markdown {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.blog-list-markdown {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.blog-inline-link {
+  color: #e2b88d;
+  text-underline-offset: 0.12em;
+}
+
+.blog-inline-link:hover {
+  color: #f9e8c9;
+}
+
 .blog-controls {
   max-width: 100%;
 }

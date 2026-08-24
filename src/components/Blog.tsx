@@ -1,39 +1,26 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 interface PageProps {
   setPage: () => void;
 }
 
 type Post = {
-  id: string;
+  slug: string;
   title: string;
   date: string; // ISO
   image: string;
-  excerpt?: string;
-  content?: string;
+  excerpt: string;
+  content: string;
 };
 
-const posts: Post[] = [
-  {
-    id: 'modern-react-patterns',
-    title: 'Modern React Patterns',
-    date: '2026-05-01',
-    image: '/media/images/projects/sluggaming/sluggamingcover.jpg',
-    excerpt: 'A short tour through hooks, suspense, and patterns I use every day.',
-    content:
-      'This is a starter post body. Replace it with your own writing, and the page will render it as paragraphs separated by blank lines.\n\nYou can keep using the excerpt for the card view and put the full post here for the dedicated blog page.',
-  },
-  {
-    id: 'building-sluggaming',
-    title: 'Building the Slug Gaming Website',
-    date: '2025-11-12',
-    image: '/media/images/projects/sluggaming/sluggamingcover.jpg',
-    excerpt: 'How I put together the Slug Gaming site and the stack choices behind it.',
-    content:
-      'This is the second starter post body. It should be replaced with the real article text when you are ready.\n\nThe important part is that the slug becomes the URL, so the page can live at /blog/building-sluggaming.',
-  },
-];
+const DEFAULT_POST_IMAGE = '/media/images/projects/sluggaming/sluggamingcover.jpg';
+const postFiles = import.meta.glob('../content/blog/*.md', {
+  eager: true,
+  import: 'default',
+  query: '?raw',
+}) as Record<string, string>;
 
 function slugify(input: string) {
   return input
@@ -42,6 +29,82 @@ function slugify(input: string) {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 }
+
+function parseFrontmatter(raw: string) {
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+  if (!match) {
+    return { frontmatter: {} as Record<string, string>, content: raw.trim() };
+  }
+
+  const frontmatter: Record<string, string> = {};
+  for (const line of match[1].split(/\r?\n/)) {
+    const pair = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!pair) continue;
+    const key = pair[1].trim().toLowerCase();
+    const value = pair[2].trim().replace(/^['\"](.*)['\"]$/, '$1');
+    frontmatter[key] = value;
+  }
+
+  return {
+    frontmatter,
+    content: raw.slice(match[0].length).trim(),
+  };
+}
+
+function toTitleFromSlug(slug: string) {
+  return slug
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function stripMarkdown(input: string) {
+  return input
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+    .replace(/^#+\s+/gm, '')
+    .replace(/^[-*]\s+/gm, '')
+    .trim();
+}
+
+function titleFromContent(content: string) {
+  const heading = content.match(/^#\s+(.+)$/m);
+  return heading?.[1]?.trim();
+}
+
+function buildPostsFromMarkdown(): Post[] {
+  const today = new Date().toISOString().slice(0, 10);
+
+  return Object.entries(postFiles).map(([path, raw]) => {
+    const { frontmatter, content } = parseFrontmatter(raw);
+    const fileName = path.split('/').pop()?.replace(/\.md$/, '') || 'post';
+    const slug = slugify(frontmatter.slug || fileName);
+    const cleanedContent = stripMarkdown(content);
+    const excerpt = frontmatter.excerpt || cleanedContent.split(/\n+/).join(' ').trim().slice(0, 180);
+
+    return {
+      slug,
+      title: frontmatter.title || titleFromContent(content) || toTitleFromSlug(slug),
+      date: frontmatter.date || today,
+      image: frontmatter.image || DEFAULT_POST_IMAGE,
+      excerpt,
+      content,
+    };
+  });
+}
+
+function formatDate(value: string) {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+  return parsed.toLocaleDateString();
+}
+
+const posts = buildPostsFromMarkdown();
 
 export default function Blog({ setPage }: PageProps) {
   const navigate = useNavigate();
@@ -58,17 +121,17 @@ export default function Blog({ setPage }: PageProps) {
 
   const currentPost = React.useMemo(() => {
     if (!slug) return undefined;
-    return sorted.find((post) => post.id === slug || slugify(post.title) === slug);
+    return sorted.find((post) => post.slug === slug);
   }, [slug, sorted]);
 
   const filtered = React.useMemo(() => {
     if (!query.trim()) return sorted;
     const q = query.toLowerCase();
-    return sorted.filter((p) => (p.title + ' ' + (p.excerpt || '') + ' ' + (p.content || '')).toLowerCase().includes(q));
+    return sorted.filter((p) => (p.title + ' ' + p.excerpt + ' ' + p.content).toLowerCase().includes(q));
   }, [query, sorted]);
 
   const openPost = (post: Post) => {
-    navigate(`/blog/${slugify(post.title)}`);
+    navigate(`/blog/${post.slug}`);
   };
 
   const closePost = () => {
@@ -76,10 +139,6 @@ export default function Blog({ setPage }: PageProps) {
   };
 
   if (currentPost) {
-    const bodyParagraphs = (currentPost.content || currentPost.excerpt || '')
-      .split(/\n\n+/)
-      .filter(Boolean);
-
     return (
       <section className="about-page blog-page" aria-labelledby="blog-title">
         <p className="about-kicker">BLOG</p>
@@ -88,16 +147,29 @@ export default function Blog({ setPage }: PageProps) {
             Back to all posts
           </button>
           <h1 id="blog-title" className="about-title about-inter">{currentPost.title}</h1>
-          <p className="about-label post-date">{new Date(currentPost.date).toLocaleDateString()}</p>
+          <p className="about-label post-date">{formatDate(currentPost.date)}</p>
         </div>
 
         <article className="blog-detail">
           <img className="post-image blog-detail-image" src={currentPost.image} alt={currentPost.title} />
-          {bodyParagraphs.map((paragraph, index) => (
-            <p key={index} className="about-copy blog-detail-paragraph">
-              {paragraph}
-            </p>
-          ))}
+          <div className="blog-markdown">
+            <ReactMarkdown
+              components={{
+                p: ({ children }) => <p className="about-copy blog-detail-paragraph">{children}</p>,
+                h2: ({ children }) => <h2 className="project-title about-inter">{children}</h2>,
+                h3: ({ children }) => <h3 className="about-label">{children}</h3>,
+                ul: ({ children }) => <ul className="about-copy blog-list-markdown">{children}</ul>,
+                ol: ({ children }) => <ol className="about-copy blog-list-markdown">{children}</ol>,
+                a: ({ children, href }) => (
+                  <a href={href} target="_blank" rel="noreferrer" className="blog-inline-link">
+                    {children}
+                  </a>
+                ),
+              }}
+            >
+              {currentPost.content || currentPost.excerpt}
+            </ReactMarkdown>
+          </div>
         </article>
       </section>
     );
@@ -106,7 +178,7 @@ export default function Blog({ setPage }: PageProps) {
   return (
     <section className="about-page blog-page" aria-labelledby="blog-title">
       <p className="about-kicker">BLOG</p>
-      <h1 id="blog-title" className="about-title about-section about-inter">I like writing about whatever excites me! No specific topic.</h1>
+      <h1 id="blog-title" className="about-title about-section about-inter">Ever since I was 5, I dreamed of optimizing distributed systems at scale. /srs!</h1>
 
       <div className="blog-controls about-section">
         <label style={{ display: 'block', marginBottom: 8 }} htmlFor="blog-search">Search posts</label>
@@ -124,9 +196,9 @@ export default function Blog({ setPage }: PageProps) {
           {filtered.length === 0 && <p className="about-copy">No posts match your search.</p>}
           {filtered.map((post) => (
             <article
-              key={post.id}
+              key={post.slug}
               className="post"
-              aria-labelledby={`${post.id}-title`}
+              aria-labelledby={`${post.slug}-title`}
               tabIndex={0}
               role="link"
               onClick={() => openPost(post)}
@@ -139,12 +211,12 @@ export default function Blog({ setPage }: PageProps) {
             >
               <div className="post-header-row">
                 <div className="post-header-copy">
-                  <h2 id={`${post.id}-title`} className="project-title about-inter">{post.title}</h2>
-                  <p className="about-label post-date">{new Date(post.date).toLocaleDateString()}</p>
+                  <h2 id={`${post.slug}-title`} className="project-title about-inter">{post.title}</h2>
+                  <p className="about-label post-date">{formatDate(post.date)}</p>
                 </div>
               </div>
               <img className="post-image" src={post.image} alt={post.title} loading="lazy" />
-              {post.excerpt && <p className="about-copy post-excerpt">{post.excerpt}</p>}
+              <p className="about-copy post-excerpt">{post.excerpt}</p>
             </article>
           ))}
         </main>
@@ -154,9 +226,9 @@ export default function Blog({ setPage }: PageProps) {
             <div className="about-label" style={{ marginBottom: 10 }}>Jump to</div>
             <div className="blog-toc" role="navigation">
               {sorted.map((p) => (
-                <button key={p.id} className="blog-toc-item about-inter" onClick={() => openPost(p)}>
+                <button key={p.slug} className="blog-toc-item about-inter" onClick={() => openPost(p)}>
                   <div className="blog-toc-title">{p.title}</div>
-                  <div className="blog-toc-date">{new Date(p.date).toLocaleDateString()}</div>
+                  <div className="blog-toc-date">{formatDate(p.date)}</div>
                 </button>
               ))}
             </div>

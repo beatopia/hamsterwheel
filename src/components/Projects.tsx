@@ -12,7 +12,7 @@ export default function Projects({ setPage }: PageProps) {
     {
       id: 'slug-gaming',
       title: 'Slug Gaming Website',
-      subtitle: 'React, JavaScript, Node.js, Tailwind CSS, Git, Figma',
+      subtitle: 'React, JavaScript, Node.js, Tailwind CSS, Git',
       cover: '/media/images/projects/sluggaming/sluggamingcover.jpg',
       href: 'https://www.sluggaming.club/',
     },
