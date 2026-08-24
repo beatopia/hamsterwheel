@@ -247,6 +247,10 @@ export default function Blog({ setPage }: PageProps) {
           {children}
         </a>
       ),
+      pre: ({ children }: { children?: React.ReactNode }) => <pre className="blog-code-block">{children}</pre>,
+      code: ({ children, className }: { children?: React.ReactNode; className?: string }) => (
+        <code className={className ? `blog-code-inline ${className}` : 'blog-code-inline'}>{children}</code>
+      ),
     };
 
     return (

@@ -829,6 +829,39 @@ nav a:hover {
   gap: 14px;
 }
 
+.blog-code-block,
+.blog-markdown pre {
+  background-color: #f9e8c9;
+  color: #3a2317;
+  border-radius: 6px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.45;
+}
+
+.blog-code-block code,
+.blog-markdown pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.blog-code-inline,
+.blog-markdown :not(pre) > code {
+  background-color: #f9e8c9;
+  color: #3a2317;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 .blog-list-markdown {
   margin: 0;
   padding-left: 24px;
