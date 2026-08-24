@@ -31,10 +31,39 @@ const blogImageFiles = import.meta.glob('../content/blog/blog-images/*', {
   import: 'default',
 }) as Record<string, string>;
 
+function parseImageSourceAndSize(rawSrc?: string, rawAlt?: string) {
+  let src = (rawSrc || '').trim();
+  let size: 'small' | 'medium' | 'large' | 'default' = 'default';
+  let alt = (rawAlt || '').trim();
+
+  // 1. Check URL hash (e.g. image.png#small, #med, #medium, #large, #s, #m, #l)
+  const hashMatch = src.match(/#(small|med|medium|large|s|m|l)$/i);
+  if (hashMatch) {
+    const key = hashMatch[1].toLowerCase();
+    if (key === 'small' || key === 's') size = 'small';
+    else if (key === 'med' || key === 'medium' || key === 'm') size = 'medium';
+    else if (key === 'large' || key === 'l') size = 'large';
+    src = src.slice(0, hashMatch.index);
+  }
+
+  // 2. Check Alt text suffix (e.g. ![Alt text | small](...) or ![Alt text | med](...))
+  const altPipeMatch = alt.match(/^(.*?)\s*\|\s*(small|med|medium|large|s|m|l)\s*$/i);
+  if (altPipeMatch) {
+    alt = altPipeMatch[1].trim();
+    const key = altPipeMatch[2].toLowerCase();
+    if (key === 'small' || key === 's') size = 'small';
+    else if (key === 'med' || key === 'medium' || key === 'm') size = 'medium';
+    else if (key === 'large' || key === 'l') size = 'large';
+  }
+
+  return { cleanSrc: src, size, cleanAlt: alt };
+}
+
 function resolveBlogImagePath(image?: string) {
   if (!image) return DEFAULT_POST_IMAGE;
 
-  const normalized = image.trim().replace(/\\/g, '/');
+  let normalized = image.trim().replace(/\\/g, '/');
+  normalized = normalized.split('#')[0].split('?')[0];
   if (!normalized) return DEFAULT_POST_IMAGE;
 
   if (
@@ -234,14 +263,18 @@ export default function Blog({ setPage }: PageProps) {
       h3: ({ children }: { children?: React.ReactNode }) => <h3 className="blog-md-h3 about-inter">{children}</h3>,
       ul: ({ children }: { children?: React.ReactNode }) => <ul className="about-copy blog-list-markdown">{children}</ul>,
       ol: ({ children }: { children?: React.ReactNode }) => <ol className="about-copy blog-list-markdown">{children}</ol>,
-      img: ({ src, alt }: { src?: string; alt?: string }) => (
-        <img
-          className="post-image blog-detail-image"
-          src={resolveBlogImagePath(src)}
-          alt={alt || 'Blog image'}
-          loading="lazy"
-        />
-      ),
+      img: ({ src, alt }: { src?: string; alt?: string }) => {
+        const { cleanSrc, size, cleanAlt } = parseImageSourceAndSize(src, alt);
+        const resolvedSrc = resolveBlogImagePath(cleanSrc);
+        return (
+          <img
+            className={`blog-detail-image blog-img-${size}`}
+            src={resolvedSrc}
+            alt={cleanAlt || 'Blog image'}
+            loading="lazy"
+          />
+        );
+      },
       a: ({ children, href }: { children?: React.ReactNode; href?: string }) => (
         <a href={href} target="_blank" rel="noreferrer" className="blog-inline-link">
           {children}

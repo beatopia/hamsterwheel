@@ -2,16 +2,19 @@
 title: Overwatch Queue Monitor
 date: 2026-8-24
 image: blog-images/ow-queue-monitor-matchfound.png
-excerpt: Tool that lets me optimize the amount of food I eat while waiting for a game of Overwatch.
+excerpt: Tool that lets me maximize the amount of food I eat while waiting for a game of Overwatch.
 ---
-![Queue monitor match found](blog-images/ow-queue-monitor-matchfound.png)
+![Queue monitor match found | med](blog-images/ow-queue-monitor-matchfound.png)
 ## Motivation
 
-I need to eat as much food as possible while I'm waiting for my next Overwatch match while also ensuring I'm at my computer before my match begins. So, I think this is a great situation for a tool because the problem is extremely specific, happens to me constantly, and is probably easier to automate than fix through self-control.
+I need to maximize how much food I can eat between Overwatch matches without missing the start of the next one. So, I think this is a great situation for a tool because the problem is extremely specific, happens to me constantly, and is probably easier to automate than fix through self-control.
 
 The goal is pretty simple: detect when I find a match and send a Discord notification to my phone so I know when I need to run back to my computer.
 
 This lets me perfectly balance my gluttony and sloth. It's like my yin and yang.
+
+
+![Chikawa eating | small](src/content/blog/blog-images/ow-queue-monitor-chikawa-eat.jpg)
 
 ## Research
 
@@ -52,6 +55,8 @@ The program is basically just staring at one pixel and waiting for it to turn gr
 ## Finding Something to Detect
 
 Whenever you find a match in Overwatch, a green checkmark appears near the top of the screen.
+
+![Green checkmark](src/content/blog/blog-images/ow-queue-montior-check.png)
 
 That's perfect for what I need because the checkmark appears in the same place every time and has a pretty distinct green color.
 
@@ -169,35 +174,37 @@ So having the script print `MATCH FOUND` into my terminal wasn't exactly useful.
 
 This is where Discord webhooks come in.
 
+![Discord webhook | large](src/content/blog/blog-images/ow-queue-monitor-webhook.png)
+
 A Discord webhook lets me send a message to a Discord channel using a simple HTTP request.
 
 So once the detector sees the green pixel, it sends a message through my webhook.
 
 Something like:
 
-> MATCH FOUND
+![Discord notification | med](src/content/blog/blog-images/ow-queue-monitor-match.png)
 
 Since I have Discord notifications on my phone, I now get notified wherever I am in the house.
 
 The full system is basically:
 
 ```text
-queue for game
+>queue for game
 
-go to kitchen
+>go to kitchen
 
-pixel turns green
+>pixel turns green
 
-program detects green
+>program detects green
 
-Discord webhook sends message
+>Discord webhook sends message
 
-phone buzzes
+>phone buzzes
 
-run back to computer
+>run back to computer
 ```
 
-The future is incredible.
+The future is incredible. MY future is incredible.
 
 ## Making a GUI
 
@@ -233,6 +240,8 @@ Now I can queue for a game, walk away from my computer, and get a Discord notifi
 It's a very stupid solution to a very stupid problem.
 
 Which also makes it one of my favorite things I've built.
+
+![Chikawa happy | small](src/content/blog/blog-images/ow-queue-monitor-smile.jpg)
 
 ## Possible Improvements
 

@@ -726,7 +726,31 @@ nav a:hover {
 }
 
 .blog-detail-image {
-  margin-bottom: 0;
+  display: block;
+  height: auto;
+  border-radius: 6px;
+  margin: 6px auto;
+  object-fit: contain;
+}
+
+.blog-detail-image.blog-img-small {
+  max-width: 280px;
+  width: 100%;
+}
+
+.blog-detail-image.blog-img-medium {
+  max-width: 480px;
+  width: 100%;
+}
+
+.blog-detail-image.blog-img-large {
+  max-width: 100%;
+  width: 100%;
+}
+
+.blog-detail-image.blog-img-default {
+  max-width: 100%;
+  width: auto;
 }
 
 .blog-detail-paragraph {
