@@ -656,7 +656,10 @@ nav a:hover {
 .blog-page {
   width: min(760px, 100%);
   margin: 0 auto;
-  font-family: "LinLibertine R", serif;
+  font-family: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-variation-settings: "wght" 420;
+  font-size: calc(1.3rem - 1px);
+  line-height: 1.5;
 }
 
 .blog-home-title {
@@ -732,6 +735,31 @@ nav a:hover {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.blog-md-h1,
+.blog-md-h2,
+.blog-md-h3 {
+  margin: 0;
+  color: #f9e8c9;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.blog-md-h1 {
+  font-size: 1.85rem;
+}
+
+.blog-md-h2 {
+  font-size: 1.55rem;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.blog-md-h3 {
+  font-size: 1.3rem;
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
 }
 
 .blog-list-markdown {

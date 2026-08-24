@@ -15,6 +15,11 @@ type Post = {
   content: string;
 };
 
+type CollapsibleSection = {
+  title: string;
+  content: string;
+};
+
 const DEFAULT_POST_IMAGE = '/media/images/projects/sluggaming/sluggamingcover.jpg';
 const postFiles = import.meta.glob('../content/blog/*.md', {
   eager: true,
@@ -111,6 +116,49 @@ function titleFromContent(content: string) {
   return heading?.[1]?.trim();
 }
 
+function splitContentByH2Sections(content: string) {
+  const lines = content.split(/\r?\n/);
+  const introLines: string[] = [];
+  const sections: CollapsibleSection[] = [];
+  let currentSection: { title: string; lines: string[] } | undefined;
+
+  for (const line of lines) {
+    const headingMatch = line.match(/^##\s+(.+)\s*$/);
+    if (headingMatch) {
+      if (currentSection) {
+        sections.push({
+          title: currentSection.title,
+          content: currentSection.lines.join('\n').trim(),
+        });
+      }
+
+      currentSection = {
+        title: headingMatch[1].trim(),
+        lines: [],
+      };
+      continue;
+    }
+
+    if (currentSection) {
+      currentSection.lines.push(line);
+    } else {
+      introLines.push(line);
+    }
+  }
+
+  if (currentSection) {
+    sections.push({
+      title: currentSection.title,
+      content: currentSection.lines.join('\n').trim(),
+    });
+  }
+
+  return {
+    intro: introLines.join('\n').trim(),
+    sections,
+  };
+}
+
 function buildPostsFromMarkdown(): Post[] {
   const today = new Date().toISOString().slice(0, 10);
 
@@ -175,6 +223,32 @@ export default function Blog({ setPage }: PageProps) {
   };
 
   if (currentPost) {
+    const postBody = currentPost.content || currentPost.excerpt;
+    const { intro, sections } = splitContentByH2Sections(postBody);
+    const useCollapsibleSections = sections.length > 0;
+
+    const markdownComponents = {
+      p: ({ children }: { children?: React.ReactNode }) => <p className="about-copy blog-detail-paragraph">{children}</p>,
+      h1: ({ children }: { children?: React.ReactNode }) => <h1 className="blog-md-h1 about-inter">{children}</h1>,
+      h2: ({ children }: { children?: React.ReactNode }) => <h2 className="blog-md-h2 about-inter">{children}</h2>,
+      h3: ({ children }: { children?: React.ReactNode }) => <h3 className="blog-md-h3 about-inter">{children}</h3>,
+      ul: ({ children }: { children?: React.ReactNode }) => <ul className="about-copy blog-list-markdown">{children}</ul>,
+      ol: ({ children }: { children?: React.ReactNode }) => <ol className="about-copy blog-list-markdown">{children}</ol>,
+      img: ({ src, alt }: { src?: string; alt?: string }) => (
+        <img
+          className="post-image blog-detail-image"
+          src={resolveBlogImagePath(src)}
+          alt={alt || 'Blog image'}
+          loading="lazy"
+        />
+      ),
+      a: ({ children, href }: { children?: React.ReactNode; href?: string }) => (
+        <a href={href} target="_blank" rel="noreferrer" className="blog-inline-link">
+          {children}
+        </a>
+      ),
+    };
+
     return (
       <section className="about-page blog-page" aria-labelledby="blog-title">
         <div className="blog-detail-header about-section">
@@ -192,30 +266,26 @@ export default function Blog({ setPage }: PageProps) {
 
         <article className="blog-detail">
           <div className="blog-markdown">
-            <ReactMarkdown
-              components={{
-                p: ({ children }) => <p className="about-copy blog-detail-paragraph">{children}</p>,
-                h2: ({ children }) => <h2 className="project-title about-inter">{children}</h2>,
-                h3: ({ children }) => <h3 className="about-label">{children}</h3>,
-                ul: ({ children }) => <ul className="about-copy blog-list-markdown">{children}</ul>,
-                ol: ({ children }) => <ol className="about-copy blog-list-markdown">{children}</ol>,
-                img: ({ src, alt }) => (
-                  <img
-                    className="post-image blog-detail-image"
-                    src={resolveBlogImagePath(src)}
-                    alt={alt || 'Blog image'}
-                    loading="lazy"
-                  />
-                ),
-                a: ({ children, href }) => (
-                  <a href={href} target="_blank" rel="noreferrer" className="blog-inline-link">
-                    {children}
-                  </a>
-                ),
-              }}
-            >
-              {currentPost.content || currentPost.excerpt}
-            </ReactMarkdown>
+            {!useCollapsibleSections && (
+              <ReactMarkdown components={markdownComponents}>{postBody}</ReactMarkdown>
+            )}
+
+            {useCollapsibleSections && (
+              <>
+                {intro && <ReactMarkdown components={markdownComponents}>{intro}</ReactMarkdown>}
+
+                <div className="blog-collapsible-group">
+                  {sections.map((section, index) => (
+                    <details key={`${section.title}-${index}`} className="blog-collapsible">
+                      <summary className="blog-collapsible-summary about-inter">{section.title}</summary>
+                      <div className="blog-collapsible-content">
+                        {section.content && <ReactMarkdown components={markdownComponents}>{section.content}</ReactMarkdown>}
+                      </div>
+                    </details>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </article>
       </section>
