@@ -72,7 +72,7 @@ export default function About({ setPage }: PageProps) {
     const audioContext = audioCtxRef.current;
     const audio = eggAudioRef.current;
     if (audio && audioContext && audioContext.state === 'suspended') {
-      audioContext.resume().catch(() => {});
+      audioContext.resume().catch(() => { });
     }
 
     try {
@@ -80,22 +80,22 @@ export default function About({ setPage }: PageProps) {
         try {
           const source = audioContext.createMediaElementSource(audio);
           source.connect(audioContext.destination);
-        } catch {}
+        } catch { }
       }
-    } catch {}
+    } catch { }
 
     try {
       if (audio) {
         audio.currentTime = 0;
-        audio.play().catch(() => {});
+        audio.play().catch(() => { });
       }
-    } catch {}
+    } catch { }
 
     navigate(to);
   };
 
   const copyEmail = async () => {
-    const email = ['kailuzniak', String.fromCharCode(64), 'gmail', String.fromCharCode(46), 'com'].join('');
+    const email = ['kluzniak', String.fromCharCode(64), 'ucsc', String.fromCharCode(46), 'edu'].join('');
 
     try {
       await navigator.clipboard.writeText(email);
@@ -220,7 +220,7 @@ export default function About({ setPage }: PageProps) {
         <p className="about-footer-email about-inter">
           or mail me at{' '}
           <button type="button" className="about-email-button about-inter" onClick={copyEmail}>
-            kailuzniak [at] gmail [dot] com
+            kluzniak [at] ucsc [dot] edu
           </button>
           <span className="about-email-status" role="status" aria-live="polite">
             {emailCopied ? 'Copied!' : ''}
