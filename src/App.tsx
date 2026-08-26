@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import Header from './components/Header';
+import ContentSkeleton from './components/ContentSkeleton';
 import './App.css';
 
 const HomePage = React.lazy(() => import('./components/Home'));
@@ -117,11 +118,11 @@ function AppShell() {
         <div className="content-section" style={contentStyle}>
           <Routes>
             <Route path="/" element={<React.Suspense fallback={null}><HomePage setPage={() => setCurrentPage("home")} /></React.Suspense>} />
-            <Route path="/about" element={<React.Suspense fallback={null}><AboutPage setPage={() => setCurrentPage("About")} /></React.Suspense>} />
-            <Route path="/resume" element={<React.Suspense fallback={null}><ResumePage setPage={() => setCurrentPage("Resume")} /></React.Suspense>} />
-            <Route path="/projects" element={<React.Suspense fallback={null}><ProjectsPage setPage={() => setCurrentPage("Projects")} /></React.Suspense>} />
-            <Route path="/blog" element={<React.Suspense fallback={null}><BlogPage setPage={() => setCurrentPage("Blog")} /></React.Suspense>} />
-            <Route path="/blog/:slug" element={<React.Suspense fallback={null}><BlogPage setPage={() => setCurrentPage("Blog")} /></React.Suspense>} />
+            <Route path="/about" element={<React.Suspense fallback={<ContentSkeleton variant="about" />}><AboutPage setPage={() => setCurrentPage("About")} /></React.Suspense>} />
+            <Route path="/resume" element={<React.Suspense fallback={<ContentSkeleton variant="resume" />}><ResumePage setPage={() => setCurrentPage("Resume")} /></React.Suspense>} />
+            <Route path="/projects" element={<React.Suspense fallback={<ContentSkeleton variant="projects" />}><ProjectsPage setPage={() => setCurrentPage("Projects")} /></React.Suspense>} />
+            <Route path="/blog" element={<React.Suspense fallback={<ContentSkeleton variant="blog" />}><BlogPage setPage={() => setCurrentPage("Blog")} /></React.Suspense>} />
+            <Route path="/blog/:slug" element={<React.Suspense fallback={<ContentSkeleton variant="blog" />}><BlogPage setPage={() => setCurrentPage("Blog")} /></React.Suspense>} />
           </Routes>
         </div>
       </div>

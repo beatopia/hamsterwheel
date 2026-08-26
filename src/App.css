@@ -457,6 +457,7 @@ nav a:hover {
 }
 
 .resume-frame-wrap {
+  position: relative;
   width: 100%;
   min-height: 78vh;
   border: 1px solid rgba(249, 232, 201, 0.2);
@@ -465,11 +466,31 @@ nav a:hover {
   background: rgba(249, 232, 201, 0.04);
 }
 
+.resume-skeleton-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(58, 35, 23, 0.96);
+  z-index: 2;
+  box-sizing: border-box;
+}
+
 .resume-frame {
   width: 100%;
   height: 78vh;
   border: 0;
   display: block;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.resume-frame.resume-frame--loaded {
+  opacity: 1;
 }
 
 /* Projects page matches About/Resume page margins and serif font */
@@ -1017,3 +1038,100 @@ nav a:hover {
     display: none;
   }
 }
+
+/* Skeleton Loading States */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.skeleton-container {
+  width: 100%;
+}
+
+.skeleton-page {
+  animation: skeletonFadeIn 0.2s ease;
+}
+
+@keyframes skeletonFadeIn {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.skeleton-box {
+  background: linear-gradient(
+    90deg,
+    rgba(249, 232, 201, 0.06) 0%,
+    rgba(249, 232, 201, 0.16) 50%,
+    rgba(249, 232, 201, 0.06) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-kicker {
+  width: 90px;
+  height: 1.3rem;
+  margin-bottom: 12px;
+}
+
+.skeleton-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.skeleton-chip-item {
+  width: 120px;
+  height: 24px;
+  border-radius: 4px;
+}
+
+.skeleton-project-card {
+  min-height: 230px;
+}
+
+.skeleton-card-image {
+  min-height: 160px;
+  width: 100%;
+  border-radius: 0;
+}
+
+.skeleton-resume-frame {
+  width: 100%;
+  height: 78vh;
+  border-radius: 8px;
+}
+
+.skeleton-blog-post {
+  cursor: default;
+}
+
+.skeleton-blog-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+}
+
