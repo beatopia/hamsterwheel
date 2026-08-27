@@ -4,7 +4,9 @@ date: 2026-8-24
 image: blog-images/ow-queue-monitor-matchfound.png
 excerpt: Tool that lets me maximize the amount of food I eat while waiting for a game of Overwatch.
 ---
-![Queue monitor match found | med](blog-images/ow-queue-monitor-matchfound.png)
+[![Watch the video | medium](https://img.youtube.com/vi/IiRO6q_I1qM/maxresdefault.jpg)](https://www.youtube.com/watch?v=IiRO6q_I1qM)
+Click the image above for a quick project overview video!
+
 ## Motivation
 
 I need to maximize how much food I can eat between Overwatch matches without missing the start of the next one. So, I think this is a great situation for a tool because the problem is extremely specific, happens to me constantly, and is probably easier to automate than fix through self-control.
@@ -263,11 +265,15 @@ So I don't really care that much.
 
 ### Lock the Discord Fields
 
-Right now, the Discord ID and webhook fields are editable whenever I'm using the program.
+Right now, the Discord ID and webhook fields are editable/highlighted every time you open the program.
 
-Because text fields automatically get focused pretty easily, it's possible to accidentally type into them or delete something.
+This makes it super easy to accidentally type into them or delete something.
 
 I'd like to add a little lock button so once everything is configured, those fields become read-only until I unlock them again.
+
+*EDIT: I actually implemented this one!
+
+![Finished GUI | small](src/content/blog/blog-images/ow-queue-monitor-finishedgui.png)
 
 ### Better Resolution Support
 
@@ -287,8 +293,11 @@ So I spent all this time making a solution to a problem and then stopped having 
 
 Maybe use it in my stead.
 
-The project is on my GitHub, and the setup instructions are there too.
+The project is on my [GitHub](https://github.com/beatopia/ow-queue-monitor), and the setup instructions are there too.
+
+
 
 Now you can safely leave your queue and dedicate all of your mental energy to more important things.
 
 Like finding something to blame your teammates for.
+
