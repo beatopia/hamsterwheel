@@ -173,8 +173,15 @@ export default function About({ setPage }: PageProps) {
         At UC Santa Cruz, I support the 3,000+ members of Slug Gaming as one of four
         executive signers, help manage the UCSC Computer Lounges as a systems
         administrator, represent Slug Gaming through Gen.G Collegiate's partner
-        program, and intern with VSA. In my free time, I compete in Division I
-        collegiate Overwatch as a hitscan player.
+        program, and intern with VSA. In my free time, I{" "}
+        <a
+          href="https://youtu.be/Jb9JKaX0S8s?si=fQ-t0xYwWuZc2-Ex&t=70"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          compete in Division 1 collegiate Overwatch
+        </a>{" "}
+        as a hitscan player.
       </p>
 
       <HobbiesSection playEggAndNavigate={playEggAndNavigate} />

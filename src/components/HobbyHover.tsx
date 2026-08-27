@@ -222,7 +222,7 @@ export default function HobbiesSection({ playEggAndNavigate }: HobbiesSectionPro
             >
               <div className="hobby-gaming-card">
                 <p className="hobby-gaming-text">
-                  My all-time favorites include Pokemon, Minecraft (esp. modded), osu!, Overwatch, and Vermintide 2. Always open to recommendations! :)
+                  My all-time favorites include Pokémon, Minecraft (esp. modded), osu!, Overwatch, and Vermintide 2. Always open to recommendations! :)
                 </p>
               </div>
             </div>
@@ -253,7 +253,7 @@ export default function HobbiesSection({ playEggAndNavigate }: HobbiesSectionPro
               <div className="hobby-cooking-card">
                 <p className="hobby-cooking-text">
                   NOTE: enjoying cooking != good at cooking.
-                  I mostly do meal prep now, but in high school I used to try a new recipe every month. The goal is to restart that tradition this school year, as I'll finally have access to a kitchen!
+                  I mostly do meal prep now, but in high school I used to try cooking a new recipe every month. The goal is to restart that tradition this school year, as I'll finally have access to a kitchen!
                   Gone are the days of Buldak...
                 </p>
               </div>
