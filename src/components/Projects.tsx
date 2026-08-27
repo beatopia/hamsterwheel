@@ -10,13 +10,19 @@ export default function Projects({ setPage }: PageProps) {
   }, [setPage]);
   const projects = [
     {
+      id: 'ow-queue-monitor',
+      title: 'OW Queue Monitor',
+      subtitle: 'Python, PyQt6, ImageGrab, Pillow, Requests',
+      cover: '/media/images/projects/owqueuemonitor.jpg',
+      href: 'https://github.com/beatopia/ow-queue-monitor',
+    },
+    {
       id: 'slug-gaming',
       title: 'Slug Gaming Website',
       subtitle: 'React, JavaScript, Node.js, Tailwind CSS, Git',
       cover: '/media/images/projects/sluggaming/sluggamingcover.jpg',
-      href: 'https://www.sluggaming.club/',
+      href: 'https://github.com/sluggaming/sluggaming.github.io',
     },
-    { id: 'undoc-1', title: 'Undocumented Project', subtitle: '' },
     { id: 'undoc-2', title: 'Undocumented Project', subtitle: '' },
     { id: 'undoc-3', title: 'Undocumented Project', subtitle: '' },
     { id: 'undoc-4', title: 'Undocumented Project', subtitle: '' },
