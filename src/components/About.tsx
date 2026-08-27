@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createAudio } from '../utils/audio.ts';
+import HobbiesSection from './HobbyHover';
 
 interface PageProps {
   setPage: () => void;
@@ -23,7 +24,7 @@ const currentProjects = [
 
 const previousInternships = [
   {
-    name: 'Boeing',
+    name: 'Boeing Defense, Space & Security',
     logo: '/media/images/boeinglogo.png',
     role: 'Technical Program Management Intern',
   },
@@ -176,14 +177,7 @@ export default function About({ setPage }: PageProps) {
         collegiate Overwatch as a hitscan player.
       </p>
 
-      <p className="about-copy about-inter">
-        Outside of programming, I love exploring nature, climbing, cooking, and thinking
-        about music. If you're curious what I've been up to, please check out my{' '}
-        <Link to="/blog" onClick={(event) => playEggAndNavigate(event, '/blog')}>
-          blog
-        </Link>
-        !
-      </p>
+      <HobbiesSection playEggAndNavigate={playEggAndNavigate} />
 
       <div className="about-footer">
         <p className="about-footer-label about-inter">Find me on</p>

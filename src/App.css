@@ -249,7 +249,7 @@ nav a:hover {
 .about-label {
   margin: 0;
   font-size: inherit;
-  color: rgba(249, 232, 201, 0.88);
+  color: #f9e8c9;
 }
 
 .about-chip {
@@ -265,11 +265,13 @@ nav a:hover {
   line-height: inherit;
   width: fit-content;
   position: relative;
+  transition: color 0.14s ease, background 0.14s ease;
 }
 
 .about-chip span {
   font-size: calc(0.92rem - 2px);
   opacity: 0.72;
+  transition: color 0.14s ease, opacity 0.14s ease;
 }
 
 .about-group--interned {
@@ -293,38 +295,52 @@ nav a:hover {
   content: attr(data-role);
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 10px);
-  transform: translateX(-50%) translateY(4px);
-  padding: 7px 11px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.98);
-  color: #3a2317;
-  font-size: 0.88rem;
-  line-height: 1;
+  bottom: calc(100% + 8px);
+  transform: translate3d(-50%, 3px, 0) scale(0.97);
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: #24140d;
+  border: 1px solid rgba(249, 232, 201, 0.28);
+  color: #f9e8c9;
+  font-family: "LinLibertine R", serif;
+  font-size: 0.94rem;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
   white-space: nowrap;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.16s ease, transform 0.16s ease;
-  z-index: 2;
+  transition: opacity 0.12s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.12s;
+  will-change: opacity, transform;
+  z-index: 10;
 }
 
 .about-chip:hover::after,
 .about-chip:focus-visible::after {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  visibility: visible;
+  transform: translate3d(-50%, 0, 0) scale(1);
 }
 
 .about-chip:hover,
 .about-chip:focus-visible {
   outline: none;
+  color: #ffffff;
+  background: rgba(249, 232, 201, 0.15);
+}
+
+.about-chip:hover span,
+.about-chip:focus-visible span {
+  color: #ffffff;
+  opacity: 0.95;
 }
 
 .about-copy {
   margin: 0 0 20px;
   font-size: inherit;
   line-height: inherit;
-  color: rgba(249, 232, 201, 0.88);
+  color: #f9e8c9;
 }
 
 .about-copy--spaced {
@@ -351,7 +367,7 @@ nav a:hover {
 .about-footer-label {
   margin: 0 0 12px 0;
   font-size: inherit;
-  color: rgba(249, 232, 201, 0.88);
+  color: #f9e8c9;
 }
 
 .about-footer-links {
@@ -1171,4 +1187,140 @@ nav a:hover {
   aspect-ratio: 16 / 9;
   border-radius: 6px;
 }
+
+/* ==========================================================================
+   Hobby Hover Interactive System
+   ========================================================================== */
+
+.hobby-trigger {
+  border-bottom: 1.5px dotted rgba(249, 232, 201, 0.65);
+  padding-bottom: 1px;
+  cursor: default;
+  color: inherit;
+  transition: color 0.14s ease, border-bottom-color 0.14s ease;
+  position: relative;
+  display: inline;
+  text-decoration: none;
+}
+
+.hobby-trigger:hover,
+.hobby-trigger:focus-visible,
+.hobby-trigger--active {
+  color: #ffffff;
+  border-bottom-color: rgba(249, 232, 201, 0.95);
+  outline: none;
+}
+
+.hobby-music-link {
+  color: #f9e8c9;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.hobby-music-link:hover {
+  color: #e2b88d;
+}
+
+/* Overlay layer */
+.hobby-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.hobby-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease-out, visibility 0.18s ease-out;
+  will-change: transform, opacity;
+}
+
+.hobby-content.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Gaming, Nature & Cooking story cards */
+.hobby-gaming-card,
+.hobby-cooking-card {
+  width: min(380px, calc(100vw - 32px));
+  padding: 14px 18px;
+  background: #24140d;
+  border: 1px solid rgba(249, 232, 201, 0.28);
+  border-radius: 8px;
+  color: #f9e8c9;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translate3d(0, 3px, 0) scale(0.97);
+  transition: opacity 0.12s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.hobby-content.is-active .hobby-gaming-card,
+.hobby-content.is-active .hobby-cooking-card {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.hobby-gaming-text,
+.hobby-cooking-text {
+  margin: 0;
+  font-family: "LinLibertine R", serif;
+  font-size: 1.01rem;
+  line-height: 1.48;
+  color: #f9e8c9;
+}
+
+/* Ceramics Homer sculpture */
+.hobby-ceramics-wrap {
+  width: min(510px, calc(100vw - 32px));
+  max-height: min(410px, 78vh);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(249, 232, 201, 0.25);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.68);
+  background: #1e120c;
+  display: flex;
+  opacity: 0;
+  transform: scale(0.92) translateY(6px);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hobby-content.is-active .hobby-ceramics-wrap {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.hobby-ceramics-img {
+  width: 100%;
+  height: 100%;
+  max-height: min(410px, 78vh);
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Reduced Motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hobby-content,
+  .hobby-gaming-card,
+  .hobby-cooking-card,
+  .hobby-ceramics-wrap {
+    transition: opacity 0.15s ease !important;
+    transform: none !important;
+  }
+}
+
 
