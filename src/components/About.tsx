@@ -116,7 +116,7 @@ export default function About({ setPage }: PageProps) {
       <div className="about-section about-works">
         <div className="about-group">
           <div className="about-line">
-            <p className="about-label about-inter">Currently building</p>
+            <p className="about-label about-inter">Currently contributing to</p>
             {currentProjects.map((company) => (
               <div
                 key={company.name}
@@ -138,7 +138,7 @@ export default function About({ setPage }: PageProps) {
 
         <div className="about-group about-group--interned">
           <div className="about-line">
-            <p className="about-label about-inter">Previously interned at</p>
+            <p className="about-label about-inter">Previously at</p>
             {previousInternships.map((company) => (
               <div
                 key={company.name}
@@ -177,12 +177,12 @@ export default function About({ setPage }: PageProps) {
       </p>
 
       <p className="about-copy about-inter">
-        Outside of programming, I love exploring nature, climbing, cooking, and writing
-        about music. I&apos;m pretty enamored with my favorite songs, so check out my{' '}
+        Outside of programming, I love exploring nature, climbing, cooking, and thinking
+        about music. If you're curious what I've been up to, please check out my{' '}
         <Link to="/blog" onClick={(event) => playEggAndNavigate(event, '/blog')}>
           blog
-        </Link>{' '}
-        if you get a chance! :3
+        </Link>
+        !
       </p>
 
       <div className="about-footer">
