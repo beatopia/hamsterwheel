@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import ContentSkeleton from './ContentSkeleton';
 
 interface PageProps {
   setPage: () => void;
@@ -222,10 +223,15 @@ const posts = buildPostsFromMarkdown();
 export default function Blog({ setPage }: PageProps) {
   const navigate = useNavigate();
   const { slug } = useParams();
+  const [isPostLoading, setIsPostLoading] = React.useState(false);
 
   React.useEffect(() => {
     setPage();
   }, [setPage]);
+
+  React.useEffect(() => {
+    setIsPostLoading(false);
+  }, [slug]);
 
   const [query, setQuery] = React.useState('');
 
@@ -244,12 +250,17 @@ export default function Blog({ setPage }: PageProps) {
   }, [query, sorted]);
 
   const openPost = (post: Post) => {
+    setIsPostLoading(true);
     navigate(`/blog/${post.slug}`);
   };
 
   const closePost = () => {
     navigate('/blog');
   };
+
+  if (isPostLoading) {
+    return <ContentSkeleton variant="blog" />;
+  }
 
   if (currentPost) {
     const postBody = currentPost.content || currentPost.excerpt;
