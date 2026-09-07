@@ -141,6 +141,12 @@ function stripMarkdown(input: string) {
     .trim();
 }
 
+function getBlogImageSources(content: string) {
+  return [...content.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+['"][^'"]*['"])?\)/g)]
+    .map((match) => parseImageSourceAndSize(match[1]).cleanSrc)
+    .map((src) => resolveBlogImagePath(src));
+}
+
 function titleFromContent(content: string) {
   const heading = content.match(/^#\s+(.+)$/m);
   return heading?.[1]?.trim();
@@ -229,10 +235,6 @@ export default function Blog({ setPage }: PageProps) {
     setPage();
   }, [setPage]);
 
-  React.useEffect(() => {
-    setIsPostLoading(false);
-  }, [slug]);
-
   const [query, setQuery] = React.useState('');
 
   // Sort posts newest first by date (ISO strings compare correctly)
@@ -242,6 +244,34 @@ export default function Blog({ setPage }: PageProps) {
     if (!slug) return undefined;
     return sorted.find((post) => post.slug === slug);
   }, [slug, sorted]);
+
+  React.useEffect(() => {
+    if (!isPostLoading || !currentPost) return undefined;
+
+    const imageSources = getBlogImageSources(currentPost.content);
+    if (imageSources.length === 0) {
+      setIsPostLoading(false);
+      return undefined;
+    }
+
+    let isActive = true;
+    const images = imageSources.map((src) => {
+      const image = new Image();
+      return new Promise<void>((resolve) => {
+        image.onload = () => resolve();
+        image.onerror = () => resolve();
+        image.src = src;
+      });
+    });
+
+    void Promise.all(images).then(() => {
+      if (isActive) setIsPostLoading(false);
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, [currentPost, isPostLoading]);
 
   const filtered = React.useMemo(() => {
     if (!query.trim()) return sorted;
@@ -255,6 +285,7 @@ export default function Blog({ setPage }: PageProps) {
   };
 
   const closePost = () => {
+    setIsPostLoading(false);
     navigate('/blog');
   };
 

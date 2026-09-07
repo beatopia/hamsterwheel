@@ -291,6 +291,24 @@ nav a:hover {
   filter: brightness(0.88) saturate(0.9);
 }
 
+.about-chip--loading {
+  min-width: 116px;
+  min-height: 1.25rem;
+}
+
+.about-chip--loading .about-chip-logo {
+  visibility: hidden;
+}
+
+.about-chip-name-skeleton {
+  display: block;
+  width: 82px;
+  height: 0.7rem;
+  border-radius: 3px;
+  background: rgba(249, 232, 201, 0.2);
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
 .about-chip::after {
   content: attr(data-role);
   position: absolute;

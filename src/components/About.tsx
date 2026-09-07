@@ -40,11 +40,58 @@ const previousInternships = [
   },
 ];
 
+type Company = {
+  name: string;
+  logo: string;
+  role: string;
+  featured?: boolean;
+};
+
+interface CompanyChipProps {
+  company: Company;
+  onLogoLoaded: (name: string) => void;
+  logoLoaded: boolean;
+}
+
+function CompanyChip({ company, onLogoLoaded, logoLoaded }: CompanyChipProps) {
+  return (
+    <div
+      className={`${company.featured ? 'about-chip about-chip--featured' : 'about-chip'}${logoLoaded ? '' : ' about-chip--loading'}`}
+      aria-label={`${company.name}, ${company.role}`}
+      data-role={company.role}
+      tabIndex={0}
+    >
+      <img
+        src={company.logo}
+        alt={`${company.name} logo`}
+        className="about-chip-logo"
+        onLoad={() => onLogoLoaded(company.name)}
+        onError={() => onLogoLoaded(company.name)}
+      />
+      {logoLoaded ? (
+        <span className="about-inter">{company.name}</span>
+      ) : (
+        <span className="about-chip-name-skeleton" aria-hidden="true" />
+      )}
+    </div>
+  );
+}
+
 export default function About({ setPage }: PageProps) {
   const navigate = useNavigate();
   const [emailCopied, setEmailCopied] = React.useState(false);
+  const [loadedCompanyLogos, setLoadedCompanyLogos] = React.useState<Set<string>>(new Set());
   const eggAudioRef = React.useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = React.useRef<AudioContext | null>(null);
+
+  const handleLogoLoaded = React.useCallback((companyName: string) => {
+    setLoadedCompanyLogos((loaded) => {
+      if (loaded.has(companyName)) return loaded;
+      const next = new Set(loaded);
+      next.add(companyName);
+      return next;
+    });
+  }, []);
 
   React.useEffect(() => {
     setPage();
@@ -119,20 +166,12 @@ export default function About({ setPage }: PageProps) {
           <div className="about-line">
             <p className="about-label about-inter">Currently contributing to</p>
             {currentProjects.map((company) => (
-              <div
+              <CompanyChip
                 key={company.name}
-                className={company.featured ? 'about-chip about-chip--featured' : 'about-chip'}
-                aria-label={`${company.name}, ${company.role}`}
-                data-role={company.role}
-                tabIndex={0}
-              >
-                <img
-                  src={company.logo}
-                  alt={`${company.name} logo`}
-                  className="about-chip-logo"
-                />
-                <span className="about-inter">{company.name}</span>
-              </div>
+                company={company}
+                logoLoaded={loadedCompanyLogos.has(company.name)}
+                onLogoLoaded={handleLogoLoaded}
+              />
             ))}
           </div>
         </div>
@@ -141,20 +180,12 @@ export default function About({ setPage }: PageProps) {
           <div className="about-line">
             <p className="about-label about-inter">Previously at</p>
             {previousInternships.map((company) => (
-              <div
+              <CompanyChip
                 key={company.name}
-                className="about-chip"
-                aria-label={`${company.name}, ${company.role}`}
-                data-role={company.role}
-                tabIndex={0}
-              >
-                <img
-                  src={company.logo}
-                  alt={`${company.name} logo`}
-                  className="about-chip-logo"
-                />
-                <span className="about-inter">{company.name}</span>
-              </div>
+                company={company}
+                logoLoaded={loadedCompanyLogos.has(company.name)}
+                onLogoLoaded={handleLogoLoaded}
+              />
             ))}
           </div>
         </div>
