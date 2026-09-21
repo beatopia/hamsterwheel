@@ -9,12 +9,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "astro": "astro",
     "generate-types": "wrangler types",
     "deploy": "npm run build"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.3.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-markdown": "^10.1.0",

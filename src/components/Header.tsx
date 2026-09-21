@@ -1,125 +1,22 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { createAudio } from '../utils/audio.ts';
+import { Link, useLocation } from 'react-router-dom';
+import { resumeUrl } from '../data/portfolio';
 
-const links = [
-  { href: '/about', label: 'About' },
-  { href: '/resume', label: 'Resume' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/blog', label: 'Blog' },
-];
-
-export default function Header({ currentPage, onSetPage, onHamsterClick }: { currentPage: string; onSetPage: (p: string) => void; onHamsterClick: () => void; }) {
-  const navigate = useNavigate();
-  const clickAudioRef = React.useRef<HTMLAudioElement | null>(null);
-  const eggAudioRef = React.useRef<HTMLAudioElement | null>(null);
-  const audioCtxRef = React.useRef<AudioContext | null>(null);
-  const nameRef = React.useRef<HTMLDivElement | null>(null);
-  const taglineRef = React.useRef<HTMLDivElement | null>(null);
-  const [taglineScale, setTaglineScale] = React.useState(1);
-
-  React.useEffect(() => {
-    clickAudioRef.current = createAudio('/sounds/eggpop.mp3');
-    eggAudioRef.current = createAudio('/sounds/sqek.mp3');
-  }, []);
-
-  React.useLayoutEffect(() => {
-    const fitTagline = () => {
-      if (!nameRef.current || !taglineRef.current) return;
-      const nameWidth = nameRef.current.offsetWidth;
-      const taglineWidth = taglineRef.current.scrollWidth;
-      if (!nameWidth || !taglineWidth) return;
-      setTaglineScale(nameWidth / taglineWidth);
-    };
-
-    fitTagline();
-
-    const observer = new ResizeObserver(() => {
-      window.requestAnimationFrame(fitTagline);
-    });
-
-    if (nameRef.current) observer.observe(nameRef.current);
-    if (taglineRef.current) observer.observe(taglineRef.current);
-
-    window.addEventListener('resize', fitTagline);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', fitTagline);
-    };
-  }, []);
-
-  function ensureAudioContext() {
-    if (audioCtxRef.current) return;
-    try {
-      const C = (window.AudioContext || (window as any).webkitAudioContext);
-      if (!C) return;
-      audioCtxRef.current = new C();
-    } catch (e) {
-      audioCtxRef.current = null;
-    }
-  }
-
-  const playThenNavigate = (e: React.MouseEvent, to: string, audio: HTMLAudioElement | null, label?: string) => {
-    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    e.preventDefault();
-    ensureAudioContext();
-    const audioCtx = audioCtxRef.current;
-    if (audio && audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
-
-    try {
-      if (audio && audioCtx) {
-        try {
-          const src = audioCtx.createMediaElementSource(audio);
-          src.connect(audioCtx.destination);
-        } catch {}
-      }
-    } catch {}
-
-    // Play sound fire-and-forget, then navigate immediately
-    try {
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-      }
-    } catch (err) {
-      // ignore play errors
-    }
-
-    if (to === '/' && currentPage === 'home') {
-      onHamsterClick();
-    }
-
-    onSetPage(label ?? '');
-    navigate(to);
-  };
+export default function Header() {
+  const { pathname } = useLocation();
+  const homePrefix = pathname === '/' ? '' : '/';
 
   return (
-    <div className="top-section">
-      <div className="intro">
-        <div className="name" ref={nameRef}>Kai Luzniak</div>
-        <div
-          className="tagline"
-          ref={taglineRef}
-          style={{ transform: `scaleX(${taglineScale})` }}
-        >
-          CS Student & Software Developer
+    <header className="site-header">
+      <nav className="nav wrap" aria-label="Primary navigation">
+        <Link className="wordmark" to="/" aria-label="Kai Luzniak, home">Kai Luzniak<span aria-hidden="true">_</span></Link>
+        <div className="nav-links">
+          <a href={`${homePrefix}#work`}>Work</a>
+          <a href={`${homePrefix}#experience`}>Experience</a>
+          <a href={`${homePrefix}#about`}>About</a>
+          <a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a>
+          <Link to="/blog">Blog</Link>
         </div>
-      </div>
-      <a href="/" className="hamster-link" onClick={(e) => playThenNavigate(e, '/', eggAudioRef.current, 'home')}>
-        <img className="hamster" src="/media/gifs/hamster-spins.gif" alt="spinning hamster" />
-      </a>
-      <nav>
-        {links.map((link) => (
-          <div key={link.href} className={`nav-item ${currentPage === link.label ? 'selected' : ''}`}>
-            <a href={link.href} onClick={(e) => playThenNavigate(e, link.href, clickAudioRef.current, link.label)}>
-              {link.label}
-            </a>
-            {currentPage === link.label && (
-              <img className="indicator" src="/media/gifs/hamsterheadspin.gif" alt="selected" />
-            )}
-          </div>
-        ))}
       </nav>
-    </div>
+    </header>
   );
 }

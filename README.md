@@ -2,7 +2,16 @@
 
 This is my personal website to host my resume, projects, blog posts, etc.
 
-Built with Astro and React, hosted on Cloudflare.
+Built with React, TypeScript, and Vite, and hosted on Cloudflare.
+
+## Local development
+
+```bash
+npm install
+npm run dev
+```
+
+Run `npm run build` for a production build.
 
 ## Blog workflow (minimal effort)
 
