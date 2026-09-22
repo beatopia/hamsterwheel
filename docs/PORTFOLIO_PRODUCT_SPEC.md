@@ -49,7 +49,7 @@ Blog posts live in `src/content/blog`. Project-specific development notes live s
 
 ## Homepage identity
 
-The homepage is a compact personal essay rather than a portfolio landing page. Kai's name is a modest heading. The homepage artwork appears below the body copy as a restrained signature. Dark mode uses the static cat-bat and a faint, uniformly visible viewport-sized cellular automaton. Light mode uses the handmade hamster, with `body1` fixed and the six leg frames cycling every 250ms. `body2` remains reserved and hidden. The automaton is disabled in light mode.
+The homepage is a compact personal essay rather than a portfolio landing page. Kai's name is a modest heading. The homepage artwork appears below the body copy as a restrained signature. Dark mode uses the static cat-bat and a faint, uniformly visible viewport-sized cellular automaton. Light mode uses a subtle warm-brown Voronoi line texture and the handmade hamster, with `body1` fixed and the six leg frames cycling every 250ms. `body2` remains reserved and hidden. Background effects remain theme-specific and share the persisted global effects preference.
 
 ## No unnecessary repetition
 

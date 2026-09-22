@@ -207,7 +207,8 @@ main { padding-top: 4.15rem; }
   object-fit: contain;
 }
 
-.cellular-automata {
+.cellular-automata,
+.voronoi-background {
   display: block;
   position: fixed;
   z-index: 0;
@@ -264,7 +265,9 @@ main { padding-top: 4.15rem; }
 html[data-theme='light'] .cat-art { display: none; }
 html[data-theme='light'] .hamster-art { display: block; }
 html[data-theme='light'] .cellular-automata { display: none; }
-html[data-effects='off'] .cellular-automata { display: none; }
+html:not([data-theme='light']) .voronoi-background { display: none; }
+html[data-effects='off'] .cellular-automata,
+html[data-effects='off'] .voronoi-background { display: none; }
 html[data-theme='light'] .cat-note { display: none; }
 html[data-theme='light'] .hamster-note { display: block; }
 
