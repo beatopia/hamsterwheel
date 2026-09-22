@@ -37,6 +37,14 @@ body {
   background: var(--bg);
   font-size: 1rem;
   line-height: 1.48;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+img {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 button, input, textarea, select { font: inherit; }
@@ -56,6 +64,8 @@ a:focus-visible, button:focus-visible {
 }
 
 .site-shell {
+  position: relative;
+  z-index: 1;
   width: min(calc(100% - 2.5rem), var(--content-width));
   margin-inline: auto;
 }
@@ -161,6 +171,7 @@ main { padding-top: 4.15rem; }
 
 .home-artwork {
   position: relative;
+  isolation: isolate;
   width: 12.25rem;
   max-width: 55%;
   aspect-ratio: 4 / 3;
@@ -174,9 +185,22 @@ main { padding-top: 4.15rem; }
   object-fit: contain;
 }
 
+.cellular-automata {
+  display: block;
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cat-art { position: relative; z-index: 1; }
+
 .hamster-art {
   display: none;
   position: absolute;
+  z-index: 1;
   inset: 0;
 }
 
@@ -202,6 +226,7 @@ main { padding-top: 4.15rem; }
   opacity: 0;
   pointer-events: none;
   transform: translateY(-50%);
+  z-index: 2;
 }
 
 .home-artwork:hover .art-note,
@@ -216,6 +241,7 @@ main { padding-top: 4.15rem; }
 
 html[data-theme='light'] .cat-art { display: none; }
 html[data-theme='light'] .hamster-art { display: block; }
+html[data-theme='light'] .cellular-automata { display: none; }
 html[data-theme='light'] .cat-note { display: none; }
 html[data-theme='light'] .hamster-note { display: block; }
 
@@ -281,6 +307,24 @@ p { margin: 0; }
 }
 .markdown-body code { font-family: Consolas, 'Courier New', monospace; font-size: 0.9em; }
 .markdown-body :not(pre) > code { padding: 0.08em 0.3em; background: var(--surface); }
+
+.note-section {
+  margin: 2rem 0 0;
+}
+
+.note-section summary {
+  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.note-section summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 0.25rem;
+}
+
+.note-section-content > :first-child { margin-top: 0.7rem; }
+.note-section-content > :last-child { margin-bottom: 0; }
 
 @media (max-width: 600px) {
   .site-shell { width: min(calc(100% - 2rem), var(--content-width)); }

@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 
 type Post = { slug: string; title: string; date: string; excerpt: string; content: string };
 type ContentKind = 'blog' | 'project-note';
+type MarkdownSection = { title: string; content: string };
 
 const blogFiles = import.meta.glob('../content/blog/*.md', { eager: true, import: 'default', query: '?raw' }) as Record<string, string>;
 const projectNoteFiles = import.meta.glob('../content/project-notes/*.md', { eager: true, import: 'default', query: '?raw' }) as Record<string, string>;
@@ -52,6 +53,35 @@ function displayDate(value: string) {
   return year && month && day ? `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}` : value;
 }
 
+function splitMarkdownSections(content: string) {
+  const matches = [...content.matchAll(/^##\s+(.+)$/gm)];
+  if (matches.length === 0) return { intro: content, sections: [] as MarkdownSection[] };
+
+  const intro = content.slice(0, matches[0].index).trim();
+  const sections = matches.map((match, index) => {
+    const contentStart = (match.index ?? 0) + match[0].length;
+    const contentEnd = matches[index + 1]?.index ?? content.length;
+    return { title: match[1].trim(), content: content.slice(contentStart, contentEnd).trim() };
+  });
+
+  return { intro, sections };
+}
+
+function MarkdownContent({ content }: { content: string }) {
+  return (
+    <ReactMarkdown components={{
+      img: ({ src, alt }) => {
+        const size = src?.match(/#(small|med|medium|large)$/i)?.[1]?.toLowerCase() || '';
+        return <img className={size ? `image-${size}` : undefined} src={resolveImage(src)} alt={alt || ''} loading="lazy" draggable={false} />;
+      },
+      a: ({ href, children }) => {
+        const external = href?.startsWith('http');
+        return <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}>{children}</a>;
+      },
+    }}>{content}</ReactMarkdown>
+  );
+}
+
 export default function Writing({ kind }: { kind: ContentKind }) {
   const { slug } = useParams();
   const posts = kind === 'blog' ? blogPosts : projectNotes;
@@ -62,6 +92,10 @@ export default function Writing({ kind }: { kind: ContentKind }) {
   if (slug && !post) return <main><h1>{kind === 'blog' ? 'Post' : 'Project notes'} not found</h1><p><Link to={indexPath}>Back to {indexLabel.toLowerCase()}</Link></p></main>;
 
   if (post) {
+    const { intro, sections } = kind === 'project-note'
+      ? splitMarkdownSections(post.content)
+      : { intro: post.content, sections: [] as MarkdownSection[] };
+
     return (
       <main>
         <article className="prose blog-post" aria-labelledby="post-title">
@@ -69,16 +103,15 @@ export default function Writing({ kind }: { kind: ContentKind }) {
           <h1 id="post-title">{post.title}</h1>
           <time className="meta" dateTime={post.date}>{displayDate(post.date)}</time>
           <div className="markdown-body">
-            <ReactMarkdown components={{
-              img: ({ src, alt }) => {
-                const size = src?.match(/#(small|med|medium|large)$/i)?.[1]?.toLowerCase() || '';
-                return <img className={size ? `image-${size}` : undefined} src={resolveImage(src)} alt={alt || ''} loading="lazy" />;
-              },
-              a: ({ href, children }) => {
-                const external = href?.startsWith('http');
-                return <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}>{children}</a>;
-              },
-            }}>{post.content}</ReactMarkdown>
+            {intro && <MarkdownContent content={intro} />}
+            {sections.map((section) => (
+              <details className="note-section" open key={section.title}>
+                <summary>{section.title}</summary>
+                <div className="note-section-content">
+                  <MarkdownContent content={section.content} />
+                </div>
+              </details>
+            ))}
           </div>
         </article>
       </main>

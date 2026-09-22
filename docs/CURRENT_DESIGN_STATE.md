@@ -13,11 +13,11 @@ This document describes the approved minimal implementation.
 
 ## Homepage
 
-The homepage is a personal, text-first introduction. Kai's name is a modest heading, followed by the approved biography and contact line. The signature artwork sits close below the copy at the column edge. Dark mode shows the static cat-bat; light mode shows the animated layered hamster. The hamster uses `body1` above leg frames 1–6 so hidden leg portions cannot show through the body; the frames cycle every 250ms, while `body2` remains hidden. Hovering or focusing the artwork reveals a short ASCII-arrow credit appropriate to the active artwork.
+The homepage is a personal, text-first introduction. Kai's name is a modest heading, followed by the approved biography and contact line. The signature artwork sits close below the copy at the column edge. Dark mode shows the static cat-bat and a faint, uniformly visible viewport-sized cellular automaton. Left-clicking or left-dragging adds live cells; right-clicking or right-dragging removes them without blocking normal page controls. Light mode shows the animated layered hamster and disables the automaton. The hamster uses `body1` above leg frames 1–6 so hidden leg portions cannot show through the body; the frames cycle every 250ms, while `body2` remains hidden. Hovering or focusing the artwork reveals a short ASCII-arrow credit appropriate to the active artwork.
 
 ## Projects
 
-`/projects` uses a simple vertical list. Each entry contains a title, short description, muted technology line, and text links. Project-specific notes use `/projects/:slug` and live in `src/content/project-notes`. Project screenshots remain preserved as assets but are not displayed without a content need.
+`/projects` uses a simple vertical list. Each entry contains a title, short description, muted technology line, and text links. Project-specific notes use `/projects/:slug` and live in `src/content/project-notes`. Their level-two Markdown sections render as independently collapsible native disclosure sections, open by default. Project screenshots remain preserved as assets but are not displayed without a content need.
 
 ## Blog
 

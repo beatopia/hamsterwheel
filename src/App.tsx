@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import CellularAutomataBackground from './components/CellularAutomataBackground';
 import Header from './components/Header';
 import Home from './components/Home';
 import Projects from './components/Projects';
@@ -8,6 +9,7 @@ import './App.css';
 export default function App() {
   return (
     <BrowserRouter>
+      <CellularAutomataBackground />
       <div className="site-shell">
         <Header />
         <Routes>

@@ -42,11 +42,11 @@ export default function Home() {
         <p>My hobbies include games, weight training, music, hiking, and fashion. Music is especially fascinating to me. For the past four years, I&apos;ve made a new playlist every month, and I value being able to look back and see how my taste has transformed over time. I&apos;ve noticed that the music I listen to and how many songs I add to a playlist correlate to what I was experiencing that month. In that sense, my playlists are a reflection of who I was at that time in my life. I always enjoy exploring new genres or artists, and welcome any recommendations.</p>
         <p>Happy to talk. Reach me at <button className="text-link" type="button" onClick={copyEmail} aria-live="polite">{copied ? 'copied!' : 'kluzniak AT ucsc DOT edu'}</button>.</p>
         <div className="home-artwork" tabIndex={0}>
-          <img className="cat-art" src="/media/images/catbatinvert.png" alt="Here is a cat-bat my dad drew." />
+          <img className="cat-art" src="/media/images/catbatinvert.png" alt="Here is a cat-bat my dad drew." draggable={false} />
           <div className="hamster-art" role="img" aria-label="Here is a hamster-spider I drew.">
-            <img className="hamster-legs" src={`/media/images/hamster/legs${legFrame}.png`} alt="" />
-            <img className="hamster-body" src="/media/images/hamster/body1.png" alt="" />
-            <img className="hamster-body-two" src="/media/images/hamster/body2.png" alt="" />
+            <img className="hamster-legs" src={`/media/images/hamster/legs${legFrame}.png`} alt="" draggable={false} />
+            <img className="hamster-body" src="/media/images/hamster/body1.png" alt="" draggable={false} />
+            <img className="hamster-body-two" src="/media/images/hamster/body2.png" alt="" draggable={false} />
           </div>
           <span className="art-note cat-note" aria-hidden="true">&lt;--- Here is a cat-bat my dad drew.</span>
           <span className="art-note hamster-note" aria-hidden="true">&lt;--- Here is a hamster-spider I drew.</span>
