@@ -5,12 +5,24 @@ const email = 'kluzniak@ucsc.edu';
 export default function Home() {
   const [copied, setCopied] = React.useState(false);
   const [legFrame, setLegFrame] = React.useState(1);
+  const [effectsEnabled, setEffectsEnabled] = React.useState(() => window.localStorage.getItem('effects') !== 'off');
 
   React.useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const syncEffects = () => setEffectsEnabled(document.documentElement.dataset.effects !== 'off');
+    const observer = new MutationObserver(syncEffects);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-effects'] });
+    syncEffects();
+    return () => observer.disconnect();
+  }, []);
+
+  React.useEffect(() => {
+    if (!effectsEnabled || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setLegFrame(1);
+      return undefined;
+    }
     const timer = window.setInterval(() => setLegFrame((frame) => frame % 6 + 1), 250);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [effectsEnabled]);
 
   async function copyEmail() {
     try {

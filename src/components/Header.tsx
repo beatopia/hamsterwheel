@@ -19,6 +19,12 @@ function ThemeControls() {
     const saved = window.localStorage.getItem('theme');
     return saved === 'light' || saved === 'dark' || saved === 'system' ? saved : 'system';
   });
+  const [effectsEnabled, setEffectsEnabled] = React.useState(() => {
+    const saved = window.localStorage.getItem('effects');
+    if (saved === 'on') return true;
+    if (saved === 'off') return false;
+    return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
 
   React.useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: light)');
@@ -32,21 +38,37 @@ function ThemeControls() {
     return () => media.removeEventListener('change', applyTheme);
   }, [preference]);
 
+  React.useEffect(() => {
+    document.documentElement.dataset.effects = effectsEnabled ? 'on' : 'off';
+    window.localStorage.setItem('effects', effectsEnabled ? 'on' : 'off');
+  }, [effectsEnabled]);
+
   function chooseTheme(theme: ThemePreference) {
     window.localStorage.setItem('theme', theme);
     setPreference(theme);
   }
 
   return (
-    <div className="theme-controls" aria-label="Color theme">
-      <button type="button" aria-label="Use light theme" aria-pressed={preference === 'light'} onClick={() => chooseTheme('light')}>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>
-      </button>
-      <button type="button" aria-label="Use system theme" aria-pressed={preference === 'system'} onClick={() => chooseTheme('system')}>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></svg>
-      </button>
-      <button type="button" aria-label="Use dark theme" aria-pressed={preference === 'dark'} onClick={() => chooseTheme('dark')}>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.4A8.5 8.5 0 0 1 8.6 3.5 8.5 8.5 0 1 0 20.5 15.4Z"/></svg>
+    <div className="appearance-controls">
+      <div className="theme-controls" aria-label="Color theme">
+        <button type="button" aria-label="Use light theme" aria-pressed={preference === 'light'} onClick={() => chooseTheme('light')}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>
+        </button>
+        <button type="button" aria-label="Use system theme" aria-pressed={preference === 'system'} onClick={() => chooseTheme('system')}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></svg>
+        </button>
+        <button type="button" aria-label="Use dark theme" aria-pressed={preference === 'dark'} onClick={() => chooseTheme('dark')}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.4A8.5 8.5 0 0 1 8.6 3.5 8.5 8.5 0 1 0 20.5 15.4Z"/></svg>
+        </button>
+      </div>
+      <button
+        className="effects-annotation"
+        type="button"
+        aria-label={`${effectsEnabled ? 'Disable' : 'Enable'} background effects`}
+        aria-pressed={effectsEnabled}
+        onClick={() => setEffectsEnabled((enabled) => !enabled)}
+      >
+        [toggle effects]
       </button>
     </div>
   );

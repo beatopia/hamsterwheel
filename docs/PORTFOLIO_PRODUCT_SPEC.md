@@ -61,6 +61,7 @@ Future redesigns must preserve:
 
 - the original super-dark blue `#000308` dark palette and tan/brown light palette;
 - Light / System / Dark theme controls in the upper-right;
+- a persistent preference for enabling or disabling background effects through the ASCII-style `[toggle effects]` annotation beneath the theme controls;
 - the narrow reading column and compact spacing;
 - the HOME / BLOG / PROJECTS navigation;
 - the separate project and blog routes;

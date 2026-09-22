@@ -6,7 +6,7 @@ This document describes the approved minimal implementation.
 
 - Dark mode uses the original super-dark blue `#000308` background with light text.
 - Light mode uses a tan background with brown text.
-- A compact Light / System / Dark selector appears at the upper-right and follows the operating system when System is selected.
+- A compact Light / System / Dark selector appears at the upper-right and follows the operating system when System is selected. A permanent, right-aligned ASCII-style `[toggle effects]` annotation beneath it toggles decorative site effects: the dark-mode cellular automaton and light-mode hamster animation.
 - The site uses one narrow, centered reading column and a plain sans-serif typeface.
 - Navigation is the compact inline sequence HOME / BLOG / PROJECTS.
 - There are no cards, grids, gradients, decorative backgrounds, or unrelated accent colors.

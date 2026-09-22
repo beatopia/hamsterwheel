@@ -106,6 +106,28 @@ a:focus-visible, button:focus-visible {
   overflow: hidden;
 }
 
+.appearance-controls {
+  position: relative;
+}
+
+.effects-annotation {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0;
+  border: 0;
+  color: var(--text-muted);
+  background: transparent;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 0.62rem;
+  line-height: 1.35;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.effects-annotation:hover { color: var(--text); }
+
 .theme-controls button {
   display: grid;
   width: 1.9rem;
@@ -242,6 +264,7 @@ main { padding-top: 4.15rem; }
 html[data-theme='light'] .cat-art { display: none; }
 html[data-theme='light'] .hamster-art { display: block; }
 html[data-theme='light'] .cellular-automata { display: none; }
+html[data-effects='off'] .cellular-automata { display: none; }
 html[data-theme='light'] .cat-note { display: none; }
 html[data-theme='light'] .hamster-note { display: block; }
 

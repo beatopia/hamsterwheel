@@ -41,7 +41,7 @@ export default function CellularAutomataBackground() {
 
     function render() {
       activeContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      if (document.documentElement.dataset.theme !== 'dark') return;
+      if (document.documentElement.dataset.theme !== 'dark' || document.documentElement.dataset.effects === 'off') return;
 
       const drawGrid = (opacity: number) => {
         activeContext.fillStyle = `rgba(${CELL_COLOR}, ${opacity})`;
@@ -115,8 +115,8 @@ export default function CellularAutomataBackground() {
     function syncAnimation() {
       if (timer !== undefined) window.clearInterval(timer);
       timer = undefined;
-      const isDark = document.documentElement.dataset.theme === 'dark';
-      if (!isDark) {
+      const effectsActive = document.documentElement.dataset.theme === 'dark' && document.documentElement.dataset.effects !== 'off';
+      if (!effectsActive) {
         activeContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
         return;
       }
@@ -127,7 +127,7 @@ export default function CellularAutomataBackground() {
     }
 
     function editCell(event: PointerEvent, value: 0 | 1) {
-      if (document.documentElement.dataset.theme !== 'dark') return;
+      if (document.documentElement.dataset.theme !== 'dark' || document.documentElement.dataset.effects === 'off') return;
       const x = Math.floor(event.clientX / CELL_SIZE);
       const y = Math.floor(event.clientY / CELL_SIZE);
       if (x < 0 || x >= columns || y < 0 || y >= rows) return;
@@ -147,7 +147,7 @@ export default function CellularAutomataBackground() {
     }
 
     function handleContextMenu(event: MouseEvent) {
-      if (document.documentElement.dataset.theme === 'dark') event.preventDefault();
+      if (document.documentElement.dataset.theme === 'dark' && document.documentElement.dataset.effects !== 'off') event.preventDefault();
     }
 
     const themeObserver = new MutationObserver(syncAnimation);
@@ -163,7 +163,7 @@ export default function CellularAutomataBackground() {
     window.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('visibilitychange', handleVisibility);
     reducedMotion.addEventListener('change', syncAnimation);
-    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-effects'] });
 
     resize();
     syncAnimation();
