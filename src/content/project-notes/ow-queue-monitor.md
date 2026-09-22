@@ -1,7 +1,7 @@
 ---
 title: Overwatch Queue Monitor
 date: 2026-8-24
-image: blog-images/ow-queue-monitor-matchfound.png
+image: project-note-images/ow-queue-monitor-matchfound.png
 excerpt: Tool that lets me maximize the amount of food I eat while waiting for a game of Overwatch.
 ---
 [![Watch the video | medium](https://img.youtube.com/vi/IiRO6q_I1qM/maxresdefault.jpg)](https://www.youtube.com/watch?v=IiRO6q_I1qM)
@@ -16,7 +16,7 @@ The goal is pretty simple: detect when I find a match and send a Discord notific
 This lets me perfectly balance my gluttony and sloth. It's like my yin and yang.
 
 
-![Chikawa eating | small](src/content/blog/blog-images/ow-queue-monitor-chikawa-eat.jpg)
+![Chikawa eating | small](src/content/project-notes/project-note-images/ow-queue-monitor-chikawa-eat.jpg)
 
 ## Research
 
@@ -58,7 +58,7 @@ The program is basically just staring at one pixel and waiting for it to turn gr
 
 Whenever you find a match in Overwatch, a green checkmark appears near the top of the screen.
 
-![Green checkmark](src/content/blog/blog-images/ow-queue-montior-check.png)
+![Green checkmark](src/content/project-notes/project-note-images/ow-queue-montior-check.png)
 
 That's perfect for what I need because the checkmark appears in the same place every time and has a pretty distinct green color.
 
@@ -176,7 +176,7 @@ So having the script print `MATCH FOUND` into my terminal wasn't exactly useful.
 
 This is where Discord webhooks come in.
 
-![Discord webhook | large](src/content/blog/blog-images/ow-queue-monitor-webhook.png)
+![Discord webhook | large](src/content/project-notes/project-note-images/ow-queue-monitor-webhook.png)
 
 A Discord webhook lets me send a message to a Discord channel using a simple HTTP request.
 
@@ -184,7 +184,7 @@ So once the detector sees the green pixel, it sends a message through my webhook
 
 Something like:
 
-![Discord notification | med](src/content/blog/blog-images/ow-queue-monitor-match.png)
+![Discord notification | med](src/content/project-notes/project-note-images/ow-queue-monitor-match.png)
 
 Since I have Discord notifications on my phone, I now get notified wherever I am in the house.
 
@@ -243,7 +243,7 @@ It's a very stupid solution to a very stupid problem.
 
 Which also makes it one of my favorite things I've built.
 
-![Chikawa happy | small](src/content/blog/blog-images/ow-queue-monitor-smile.jpg)
+![Chikawa happy | small](src/content/project-notes/project-note-images/ow-queue-monitor-smile.jpg)
 
 ## Possible Improvements
 
@@ -273,7 +273,7 @@ I'd like to add a little lock button so once everything is configured, those fie
 
 *EDIT: I actually implemented this one!
 
-![Finished GUI | small](src/content/blog/blog-images/ow-queue-monitor-finishedgui.png)
+![Finished GUI | small](src/content/project-notes/project-note-images/ow-queue-monitor-finishedgui.png)
 
 ### Better Resolution Support
 
