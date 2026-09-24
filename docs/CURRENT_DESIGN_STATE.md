@@ -17,7 +17,7 @@ The homepage is a personal, text-first introduction. Kai's name is a modest head
 
 ## Projects
 
-`/projects` uses a simple vertical list. Each entry contains a title, short description, muted technology line, and text links. Project-specific notes use `/projects/:slug` and live in `src/content/project-notes`. Their level-two Markdown sections render as independently collapsible native disclosure sections, open by default. Project screenshots remain preserved as assets but are not displayed without a content need.
+`/projects` uses a simple vertical list. Each entry contains a title, short description, muted technology line, and text links. Project-specific notes use `/projects/:slug` and live in `src/content/project-notes`. Their level-two Markdown sections render as independently collapsible native disclosure sections, open by default. Linked YouTube preview images reserve a 16:9 area and show a restrained skeleton until loaded to prevent layout shift. Project screenshots remain preserved as assets but are not displayed without a content need.
 
 ## Blog
 

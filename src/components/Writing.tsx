@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import { useState } from 'react';
 
 type Post = { slug: string; title: string; date: string; excerpt: string; content: string };
 type ContentKind = 'blog' | 'project-note';
@@ -67,12 +68,38 @@ function splitMarkdownSections(content: string) {
   return { intro, sections };
 }
 
+function MarkdownImage({ src, alt, size }: { src?: string; alt?: string; size: string }) {
+  const [loaded, setLoaded] = useState(false);
+  const resolvedSrc = resolveImage(src);
+  const isVideoPreview = src?.includes('img.youtube.com/vi/');
+  const sizeClass = size ? `image-${size}` : undefined;
+
+  if (!isVideoPreview) {
+    return <img className={sizeClass} src={resolvedSrc} alt={alt || ''} loading="lazy" draggable={false} />;
+  }
+
+  return (
+    <span className={`video-preview-shell${loaded ? ' is-loaded' : ''}`}>
+      <img
+        className={`video-preview-image${sizeClass ? ` ${sizeClass}` : ''}`}
+        src={resolvedSrc}
+        alt={alt || ''}
+        loading="eager"
+        fetchPriority="high"
+        draggable={false}
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(true)}
+      />
+    </span>
+  );
+}
+
 function MarkdownContent({ content }: { content: string }) {
   return (
     <ReactMarkdown components={{
       img: ({ src, alt }) => {
         const size = src?.match(/#(small|med|medium|large)$/i)?.[1]?.toLowerCase() || '';
-        return <img className={size ? `image-${size}` : undefined} src={resolveImage(src)} alt={alt || ''} loading="lazy" draggable={false} />;
+        return <MarkdownImage src={src} alt={alt} size={size} />;
       },
       a: ({ href, children }) => {
         const external = href?.startsWith('http');
