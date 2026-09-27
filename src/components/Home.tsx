@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const email = 'kluzniak@ucsc.edu';
 
@@ -48,17 +49,15 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <p>I am a student at UCSC pursuing my bachelor&apos;s in computer science. I enjoy thinking about systems and optimization. My professional background includes embedded software development as a mentee at Northrop Grumman and technical program management as an intern at Boeing Defense, Space & Security. I was also a coding instructor at Code Ninjas, which affirmed my passion for teaching.</p>
-        <p>I enjoy thinking in systems, whether that means mastering a game, designing software, or structuring my own habits so the best choice is also the easiest one. I don't have a specific technical area I'm committed to yet, but I'm curious about performance. As of now, I mostly build applications that improve my quality of life or solve problems I find interesting. I built an Overwatch queue detector that notifies me when I find a match, as queue times scale almost exponentially in the top ~200, and I enjoy loitering around my house during the downtime. I'm also working on an osu! map recommender because I believe the existing recommenders are using the wrong metrics. </p>
-        
-        <p>My hobbies include games, weight training, music, hiking, and fashion. Music is especially fascinating to me. For the past four years, I&apos;ve made a new playlist every month, and I value being able to look back and see how my taste has transformed over time. I&apos;ve noticed that the music I listen to and how many songs I add to a playlist correlate to what I was experiencing that month. In that sense, my playlists are a reflection of who I was at that time in my life. I always enjoy exploring new genres or artists, and welcome any recommendations.</p>
-        <p>Happy to talk. Reach me at <button className="text-link" type="button" onClick={copyEmail} aria-live="polite">{copied ? 'copied!' : 'kluzniak AT ucsc DOT edu'}</button>.</p>
+        <p>I am a student at UCSC pursuing my bachelor’s in computer science. I enjoy thinking in systems, whether that means mastering a game, designing software, or structuring my own habits so the best choice is also the easiest one. I am especially interested in backend and infrastructure work, where I can think about how information moves through a system and how to make it simpler, faster, or more reliable. I also like building small tools around problems I run into myself. Check out my <Link to="/projects">full list of projects here.</Link></p>
+        <p>In my free time, I really enjoy hiking, competitive games, and music. I’ve been Top 500 in Overwatch since middle school and currently compete for UCSC in D1 collegiate Overwatch. I’ve also made a new playlist every month for the past four years as a way to keep track of how my taste changes over time. I think the music you listen to says a lot about what you were thinking or feeling at the time, so in that sense, my playlists have become little time capsules of who I was. Any music or trail recommendations are appreciated. :')</p>
+        <p>I'd love to talk about anything! Reach me at <button className="text-link" type="button" onClick={copyEmail} aria-live="polite">{copied ? 'copied!' : 'kluzniak AT ucsc DOT edu'}</button>.</p>
         <div className="home-artwork" tabIndex={0}>
-          <img className="cat-art" src="/media/images/catbatinvert.png" alt="Here is a cat-bat my dad drew." draggable={false} />
+          <img className="cat-art" src="/media/images/catbatinvert.png" alt="Here is a cat-bat my dad drew." width="1920" height="1484" loading="eager" decoding="async" fetchPriority="high" draggable={false} />
           <div className="hamster-art" role="img" aria-label="Here is a hamster-spider I drew.">
-            <img className="hamster-legs" src={`/media/images/hamster/legs${legFrame}.png`} alt="" draggable={false} />
-            <img className="hamster-body" src="/media/images/hamster/body1.png" alt="" draggable={false} />
-            <img className="hamster-body-two" src="/media/images/hamster/body2.png" alt="" draggable={false} />
+            <img className="hamster-legs" src={`/media/images/hamster/legs${legFrame}.png`} alt="" width="1200" height="900" loading="eager" decoding="async" fetchPriority="high" draggable={false} />
+            <img className="hamster-body" src="/media/images/hamster/body1.png" alt="" width="1200" height="900" loading="eager" decoding="async" fetchPriority="high" draggable={false} />
+            <img className="hamster-body-two" src="/media/images/hamster/body2.png" alt="" width="1200" height="900" decoding="async" draggable={false} />
           </div>
           <span className="art-note cat-note" aria-hidden="true">&lt;--- Here is a cat-bat my dad drew.</span>
           <span className="art-note hamster-note" aria-hidden="true">&lt;--- Here is a hamster-spider I drew.</span>

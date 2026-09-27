@@ -13,6 +13,17 @@
           : preference;
         document.documentElement.dataset.theme = resolved;
         document.documentElement.dataset.themePreference = preference;
+
+        const criticalArtwork = resolved === 'light'
+          ? ['/media/images/hamster/body1.png', '/media/images/hamster/legs1.png']
+          : ['/media/images/catbatinvert.png'];
+        for (const href of criticalArtwork) {
+          const preload = document.createElement('link');
+          preload.rel = 'preload';
+          preload.as = 'image';
+          preload.href = href;
+          document.head.appendChild(preload);
+        }
       })();
     </script>
     <link rel="apple-touch-icon" sizes="180x180" href="/media/favicon_io/apple-touch-icon.png" />
