@@ -2,9 +2,8 @@ import React from 'react';
 
 const CELL_SIZE = 20;
 const UPDATE_INTERVAL = 250;
-const CELL_OPACITY = 0.014;
+const CELL_OPACITY = 0.1;
 const INITIAL_DENSITY = 0.12;
-const CELL_COLOR = '226, 232, 240';
 const MAX_DPR = 2;
 
 function seedPatterns(grid: Uint8Array, columns: number, rows: number) {
@@ -44,7 +43,8 @@ export default function CellularAutomataBackground() {
       if (document.documentElement.dataset.theme !== 'dark' || document.documentElement.dataset.effects === 'off') return;
 
       const drawGrid = (opacity: number) => {
-        activeContext.fillStyle = `rgba(${CELL_COLOR}, ${opacity})`;
+        const cellColor = getComputedStyle(document.documentElement).getPropertyValue('--cellular-color').trim();
+        activeContext.fillStyle = `rgba(${cellColor}, ${opacity})`;
         for (let y = 0; y < rows; y += 1) {
           for (let x = 0; x < columns; x += 1) {
             if (grid[y * columns + x]) activeContext.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);

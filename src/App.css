@@ -5,6 +5,7 @@
   --link: #e2e8f0;
   --border: rgba(226, 232, 240, 0.2);
   --surface: rgba(226, 232, 240, 0.08);
+  --cellular-color: 226, 232, 240;
   --content-width: 37rem;
   --spacing: 1.35rem;
   color: var(--text);
@@ -22,6 +23,7 @@ html[data-theme='light'] {
   --link: #402419;
   --border: rgba(64, 36, 25, 0.22);
   --surface: rgba(64, 36, 25, 0.08);
+  --cellular-color: 64, 36, 25;
   color-scheme: light;
 }
 
