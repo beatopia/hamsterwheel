@@ -287,6 +287,16 @@ p { margin: 0; }
 
 .prose > p { margin-top: var(--spacing); }
 
+.lastfm-status {
+  min-height: 2.9em;
+  margin-top: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.lastfm-status a { color: inherit; }
+
 .text-link {
   margin: 0;
   padding: 0;
