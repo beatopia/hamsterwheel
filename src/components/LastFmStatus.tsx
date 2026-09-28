@@ -53,7 +53,7 @@ export default function LastFmStatus() {
           <div>
             <span aria-hidden="true">♫ </span>{track.nowPlaying ? 'Now playing: ' : 'Last played: '}
             {track.trackUrl ? <a href={track.trackUrl} target="_blank" rel="noopener noreferrer">{track.title}</a> : track.title}
-            {' — '}
+            {' by '}
             {track.artistUrl ? <a href={track.artistUrl} target="_blank" rel="noopener noreferrer">{track.artist}</a> : track.artist}
           </div>
           {!track.nowPlaying && track.playedAt && <div>{formatRelativeTime(track.playedAt)}</div>}
