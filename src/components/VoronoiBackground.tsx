@@ -9,8 +9,8 @@ const VORONOI_POINT_COUNT = 18;
 const VORONOI_LINE_WIDTH = 0.75;
 // Motion: these control how far cells morph, how long they move, and how long they rest.
 const VORONOI_MOTION_AMPLITUDE = 42;
-const VORONOI_MORPH_DURATION = 3000;
-const VORONOI_QUIET_DURATION = 8000;
+const VORONOI_MORPH_DURATION = 1500;
+const VORONOI_QUIET_DURATION = 5500;
 const VORONOI_MAX_DPR = 2;
 const POINT_MARGIN = 40;
 
