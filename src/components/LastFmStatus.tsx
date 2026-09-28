@@ -22,6 +22,7 @@ function formatRelativeTime(timestamp: number) {
 
 export default function LastFmStatus() {
   const [track, setTrack] = React.useState<LastFmTrack | null>(null);
+  const showLocalPlaceholder = !track && import.meta.env.DEV;
 
   React.useEffect(() => {
     let active = true;
@@ -46,7 +47,7 @@ export default function LastFmStatus() {
   }, []);
 
   return (
-    <div className="lastfm-status" aria-live="polite" aria-atomic="true">
+    <div className={`lastfm-status${track || showLocalPlaceholder ? ' has-content' : ''}`} aria-live="polite" aria-atomic="true">
       {track && (
         <>
           <div>
@@ -58,6 +59,7 @@ export default function LastFmStatus() {
           {!track.nowPlaying && track.playedAt && <div>{formatRelativeTime(track.playedAt)}</div>}
         </>
       )}
+      {showLocalPlaceholder && <div>♫ Last.fm status appears here on the deployed site.</div>}
     </div>
   );
 }

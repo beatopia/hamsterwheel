@@ -49,10 +49,10 @@ export default function Home() {
               <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.34 3.5A1.84 1.84 0 1 1 1.67 3.5a1.84 1.84 0 0 1 3.67 0ZM1.98 7h3.04v9.78H1.98V7Zm4.94 0h2.91v1.34h.04c.41-.77 1.4-1.58 2.88-1.58 3.08 0 3.65 2.03 3.65 4.67v5.35h-3.03v-4.74c0-1.13-.02-2.58-1.57-2.58-1.57 0-1.81 1.23-1.81 2.5v4.82H6.92V7Z" transform="translate(2.8 1.8) scale(1.05)"/></svg>
             </a>
           </div>
+          <LastFmStatus />
         </div>
         <p>I am a student at UCSC pursuing my bachelor’s in computer science. I enjoy thinking in systems, whether that means mastering a game, designing software, or structuring my own habits so the best choice is also the easiest one. I am especially interested in backend and infrastructure work, where I can think about how information moves through a system and how to make it simpler, faster, or more reliable. I also like building small tools around problems I run into myself. Check out my <Link to="/projects">full list of projects here.</Link></p>
         <p>In my free time, I really enjoy hiking, competitive games, and music. I’ve been Top 500 in Overwatch since middle school and <a href="https://youtu.be/Jb9JKaX0S8s?si=f4bZ3SC2UflfXi95&t=72" target="_blank" rel="noopener noreferrer">currently compete for UCSC in D1 collegiate Overwatch</a>. I’ve also made a new playlist every month for the past four years as a way to keep track of how my taste changes over time. I think the music you listen to says a lot about what you were thinking or feeling at the time, so in that sense, my playlists have become little time capsules of who I was. I'm always looking for new music or trails, so all recommendations are appreciated! =)</p>
-        <LastFmStatus />
         <p>I'd love to talk about anything! Reach me at <button className="text-link" type="button" onClick={copyEmail} aria-live="polite">{copied ? 'copied!' : 'kluzniak AT ucsc DOT edu'}</button>.</p>
         <div className="home-artwork" tabIndex={0}>
           <img className="cat-art" src="/media/images/catbatinvert.png" alt="Here is a cat-bat my dad drew." width="1920" height="1484" loading="eager" decoding="async" fetchPriority="high" draggable={false} />
