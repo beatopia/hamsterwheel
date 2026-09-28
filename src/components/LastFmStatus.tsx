@@ -93,7 +93,7 @@ export default function LastFmStatus() {
   const { track, isLoading } = React.useContext(LastFmContext);
 
   return (
-    <div className={`lastfm-status${track ? ' has-content' : ''}`} aria-live="polite" aria-atomic="true">
+    <div className={`lastfm-status${track ? ' has-content' : ''}${!track && isLoading ? ' is-loading' : ''}`} aria-live="polite" aria-atomic="true">
       {track && (
         <div>
             <span aria-hidden="true">♫ </span>
