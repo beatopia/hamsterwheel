@@ -17,7 +17,7 @@ Run `npm run build` for a production build.
 
 The homepage Last.fm status is served through a Cloudflare Pages Function. In Cloudflare Pages, add `LASTFM_USERNAME` as a plain-text environment variable and `LASTFM_API_KEY` as a secret for both production and preview environments. The API key is only used by the function and is never sent to the browser.
 
-For local Pages development, copy `.dev.vars.example` to `.dev.vars`, fill in your Last.fm API key, then run `npm run build` and `npx wrangler pages dev dist`. The homepage polls the function every 45 seconds.
+For local development, copy `.dev.vars.example` to `.dev.vars` and fill in your Last.fm API key. The Vite dev server reads these bindings in a server-only middleware and calls the same Pages Function handler, so `npm run dev` shows the status without exposing the key to the browser. Restart Vite after changing `.dev.vars`. The homepage polls the function every 45 seconds.
 
 ## Blog workflow (minimal effort)
 

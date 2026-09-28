@@ -203,6 +203,25 @@ main { padding-top: 4.15rem; }
   margin-top: 0.75rem;
 }
 
+.artwork-skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--surface);
+  animation: artwork-skeleton-pulse 1.8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.cat-artwork-skeleton { display: none; }
+.hamster-artwork-skeleton { display: none; }
+html:not([data-theme='light']) .cat-artwork-skeleton { display: block; }
+html[data-theme='light'] .hamster-artwork-skeleton { display: block; }
+
+@keyframes artwork-skeleton-pulse {
+  from { opacity: 0.55; }
+  to { opacity: 0.9; }
+}
+
 .home-artwork img {
   display: block;
   width: 100%;
@@ -221,14 +240,25 @@ main { padding-top: 4.15rem; }
   pointer-events: none;
 }
 
-.cat-art { position: relative; z-index: 1; }
+.cat-art {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.cat-art.is-ready { opacity: 1; }
 
 .hamster-art {
   display: none;
   position: absolute;
   z-index: 1;
   inset: 0;
+  opacity: 0;
+  transition: opacity 180ms ease;
 }
+
+.hamster-art.is-ready { opacity: 1; }
 
 .hamster-art img {
   position: absolute;
@@ -307,6 +337,19 @@ p { margin: 0; }
   font-size: 0.78rem;
   line-height: 1.3;
   text-align: right;
+}
+
+.lastfm-artist-time { white-space: nowrap; }
+.lastfm-timestamp { opacity: 0.78; }
+
+.lastfm-skeleton {
+  display: inline-block;
+  width: min(17rem, 65vw);
+  max-width: 100%;
+  height: 0.9em;
+  vertical-align: middle;
+  background: var(--surface);
+  animation: artwork-skeleton-pulse 1.8s ease-in-out infinite alternate;
 }
 
 .text-link {
@@ -430,4 +473,6 @@ p { margin: 0; }
   *, *::before, *::after { scroll-behavior: auto !important; }
   .video-preview-shell::before { animation: none; }
   .video-preview-image { transition: none; }
+  .artwork-skeleton, .lastfm-skeleton { animation: none; }
+  .cat-art, .hamster-art { transition: none; }
 }

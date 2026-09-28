@@ -1,13 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LastFmStatus from './LastFmStatus';
+import { areArtworkDecoded, waitForArtwork } from '../utils/preloadArtwork';
 
 const email = 'kluzniak@ucsc.edu';
+const catArtwork = ['/media/images/catbatinvert.png'];
+const hamsterArtwork = [
+  '/media/images/hamster/body1.png',
+  ...Array.from({ length: 6 }, (_, index) => `/media/images/hamster/legs${index + 1}.png`),
+];
 
 export default function Home() {
   const [copied, setCopied] = React.useState(false);
   const [legFrame, setLegFrame] = React.useState(1);
   const [effectsEnabled, setEffectsEnabled] = React.useState(() => window.localStorage.getItem('effects') !== 'off');
+  const [catReady, setCatReady] = React.useState(() => areArtworkDecoded(catArtwork));
+  const [hamsterReady, setHamsterReady] = React.useState(() => areArtworkDecoded(hamsterArtwork));
+  const hamsterLegsRef = React.useRef<HTMLImageElement>(null);
+  const hamsterBodyRef = React.useRef<HTMLImageElement>(null);
+
+  React.useEffect(() => {
+    let active = true;
+    if (!catReady) void waitForArtwork(catArtwork).then(() => { if (active) setCatReady(true); });
+    if (!hamsterReady) void waitForArtwork(hamsterArtwork).then(() => { if (active) setHamsterReady(true); });
+    return () => { active = false; };
+  }, [catReady, hamsterReady]);
 
   React.useEffect(() => {
     const syncEffects = () => setEffectsEnabled(document.documentElement.dataset.effects !== 'off');
@@ -36,6 +53,14 @@ export default function Home() {
     }
   }
 
+  function syncHamsterReady() {
+    const legs = hamsterLegsRef.current;
+    const body = hamsterBodyRef.current;
+    if (legs?.complete && legs.naturalWidth > 0 && body?.complete && body.naturalWidth > 0) {
+      setHamsterReady(true);
+    }
+  }
+
   return (
     <main className="home-main">
       <article className="prose home-copy" aria-labelledby="home-title">
@@ -55,10 +80,12 @@ export default function Home() {
         <p>In my free time, I really enjoy hiking, competitive games, and music. I’ve been Top 500 in Overwatch since middle school and <a href="https://youtu.be/Jb9JKaX0S8s?si=f4bZ3SC2UflfXi95&t=72" target="_blank" rel="noopener noreferrer">currently compete for UCSC in D1 collegiate Overwatch</a>. I’ve also made a new playlist every month for the past four years as a way to keep track of how my taste changes over time. I think the music you listen to says a lot about what you were thinking or feeling at the time, so in that sense, my playlists have become little time capsules of who I was. I'm always looking for new music or trails, so all recommendations are appreciated! =)</p>
         <p>I'd love to talk about anything! Reach me at <button className="text-link" type="button" onClick={copyEmail} aria-live="polite">{copied ? 'copied!' : 'kluzniak AT ucsc DOT edu'}</button>.</p>
         <div className="home-artwork" tabIndex={0}>
-          <img className="cat-art" src="/media/images/catbatinvert.png" alt="Here is a cat-bat my dad drew." width="1920" height="1484" loading="eager" decoding="async" fetchPriority="high" draggable={false} />
-          <div className="hamster-art" role="img" aria-label="Here is a hamster-spider I drew.">
-            <img className="hamster-legs" src={`/media/images/hamster/legs${legFrame}.png`} alt="" width="1200" height="900" loading="eager" decoding="async" fetchPriority="high" draggable={false} />
-            <img className="hamster-body" src="/media/images/hamster/body1.png" alt="" width="1200" height="900" loading="eager" decoding="async" fetchPriority="high" draggable={false} />
+          {!catReady && <span className="artwork-skeleton cat-artwork-skeleton" aria-hidden="true" />}
+          {!hamsterReady && <span className="artwork-skeleton hamster-artwork-skeleton" aria-hidden="true" />}
+          <img className={`cat-art${catReady ? ' is-ready' : ''}`} src="/media/images/catbatinvert.png" alt="Here is a cat-bat my dad drew." width="1920" height="1484" loading="eager" decoding="async" fetchPriority="high" onLoad={() => setCatReady(true)} onError={() => setCatReady(true)} draggable={false} />
+          <div className={`hamster-art${hamsterReady ? ' is-ready' : ''}`} role="img" aria-label="Here is a hamster-spider I drew.">
+            <img ref={hamsterLegsRef} className="hamster-legs" src={`/media/images/hamster/legs${legFrame}.png`} alt="" width="1200" height="900" loading="eager" decoding="async" fetchPriority="high" onLoad={syncHamsterReady} onError={() => setHamsterReady(true)} draggable={false} />
+            <img ref={hamsterBodyRef} className="hamster-body" src="/media/images/hamster/body1.png" alt="" width="1200" height="900" loading="eager" decoding="async" fetchPriority="high" onLoad={syncHamsterReady} onError={() => setHamsterReady(true)} draggable={false} />
             <img className="hamster-body-two" src="/media/images/hamster/body2.png" alt="" width="1200" height="900" decoding="async" draggable={false} />
           </div>
           <span className="art-note cat-note" aria-hidden="true">&lt;--- Here is a cat-bat my dad drew.</span>

@@ -9,7 +9,7 @@ const artworkUrls = [
   '/media/images/hamster/legs6.png',
 ];
 
-const decodedArtwork = new Map<string, HTMLImageElement>();
+const decodedArtwork = new Map<string, { image: HTMLImageElement; ready: boolean; decoded: Promise<void> }>();
 
 export function preloadArtwork() {
   for (const url of artworkUrls) {
@@ -18,7 +18,21 @@ export function preloadArtwork() {
     image.decoding = 'async';
     image.loading = 'eager';
     image.src = url;
-    decodedArtwork.set(url, image);
-    void image.decode().catch(() => undefined);
+    const entry = { image, ready: false, decoded: Promise.resolve() };
+    entry.decoded = image.decode().then(() => {
+      entry.ready = true;
+    }).catch(() => undefined);
+    decodedArtwork.set(url, entry);
   }
+}
+
+export function areArtworkDecoded(urls: string[]) {
+  return urls.every((url) => {
+    const artwork = decodedArtwork.get(url);
+    return artwork?.ready === true || Boolean(artwork?.image.complete && artwork.image.naturalWidth > 0);
+  });
+}
+
+export function waitForArtwork(urls: string[]) {
+  return Promise.all(urls.map((url) => decodedArtwork.get(url)?.decoded ?? Promise.resolve()));
 }
