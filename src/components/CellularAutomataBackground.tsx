@@ -2,7 +2,7 @@ import React from 'react';
 
 const CELL_SIZE = 20;
 const UPDATE_INTERVAL = 250;
-const CELL_OPACITY = 0.1;
+const CELL_OPACITY = 0.01;
 const INITIAL_DENSITY = 0.12;
 const MAX_DPR = 2;
 
