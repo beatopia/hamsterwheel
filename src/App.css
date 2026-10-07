@@ -324,6 +324,9 @@ p { margin: 0; }
 .lastfm-status a { color: inherit; }
 
 .home-title-row > .lastfm-status {
+  flex: 0 1 22rem;
+  width: min(22rem, 100%);
+  max-width: 100%;
   min-width: 0;
   min-height: 0;
   margin: 0 0 0 auto;
@@ -334,17 +337,65 @@ p { margin: 0; }
 
 .home-title-row > .lastfm-status.is-loading { min-height: 1.3em; }
 
-.lastfm-artist-time { white-space: nowrap; }
-.lastfm-timestamp { opacity: 0.78; }
+.lastfm-status-line {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  gap: 0.25rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.lastfm-icon,
+.lastfm-prefix,
+.lastfm-timestamp { flex: 0 0 auto; white-space: nowrap; }
+.lastfm-prefix { flex-shrink: 0; }
+
+.lastfm-scroll-window {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.lastfm-scroll-content {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lastfm-scroll-content.is-scrolling {
+  max-width: none;
+  overflow: visible;
+  animation: lastfm-marquee var(--lastfm-duration) ease-in-out infinite;
+}
+
+@keyframes lastfm-marquee {
+  0% { transform: translateX(0); }
+  58% { transform: translateX(calc(0px - var(--lastfm-distance))); }
+  72% { transform: translateX(calc(0px - var(--lastfm-distance))); }
+  88%, 100% { transform: translateX(0); }
+}
+
+.lastfm-timestamp { color: var(--text-muted); opacity: 0.78; }
 
 .lastfm-skeleton {
-  display: inline-block;
-  width: min(17rem, 65vw);
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
   max-width: 100%;
   height: 0.9em;
-  vertical-align: middle;
   background: var(--skeleton);
   animation: artwork-skeleton-pulse 1.8s ease-in-out infinite alternate;
+}
+
+@media (max-width: 480px) {
+  .lastfm-timestamp { display: none; }
 }
 
 .text-link {
@@ -470,4 +521,5 @@ p { margin: 0; }
   .video-preview-image { transition: none; }
   .artwork-skeleton, .lastfm-skeleton { animation: none; }
   .hamster-art { transition: none; }
+  .lastfm-scroll-content.is-scrolling { animation: none; transform: none; }
 }
