@@ -11,6 +11,17 @@ interface LastFmTrack {
   playedAt?: number;
 }
 
+const LOCAL_PLACEHOLDER_TRACK: LastFmTrack = {
+  title: 'cliche',
+  artist: '2hollis',
+  nowPlaying: true,
+  playedAt: Math.floor(Date.now() / 1000),
+};
+
+function localPlaceholder() {
+  return import.meta.env.DEV ? LOCAL_PLACEHOLDER_TRACK : null;
+}
+
 let cachedTrack: LastFmTrack | null = null;
 let pendingRequest: Promise<LastFmTrack | null> | null = null;
 
@@ -20,9 +31,9 @@ function refreshTrack() {
   const request = (async (): Promise<LastFmTrack | null> => {
     try {
       const response = await fetch('/api/lastfm');
-      if (!response.ok) return null;
+      if (!response.ok) return localPlaceholder();
       const latest = await response.json() as LastFmTrack;
-      if (!latest.title || !latest.artist) return null;
+      if (!latest.title || !latest.artist) return localPlaceholder();
       const track = latest.nowPlaying && latest.playedAt === undefined
         ? {
             ...latest,
@@ -38,7 +49,7 @@ function refreshTrack() {
       return track;
     } catch {
       // Last.fm is optional; retain the previous value if the request fails.
-      return null;
+      return localPlaceholder();
     }
   })();
 

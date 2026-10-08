@@ -170,13 +170,23 @@ main { padding-top: 4.15rem; }
 
 .home-title-row {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.7rem;
-  margin-bottom: 0;
+  justify-content: space-between;
+  row-gap: 0.5rem;
+  column-gap: 2rem;
+  margin: 0;
 }
 
 .home-title-row h1 { margin: 0; }
+
+.home-identity {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.7rem;
+}
 
 .social-links {
   display: flex;
@@ -335,6 +345,12 @@ p { margin: 0; }
   text-align: right;
 }
 
+.home-title-row.is-stacked > .lastfm-status {
+  flex: 1 0 100%;
+  margin: 0;
+  text-align: left;
+}
+
 .home-title-row > .lastfm-status.is-loading { min-height: 1.3em; }
 
 .lastfm-status-line {
@@ -383,7 +399,6 @@ p { margin: 0; }
 }
 
 .lastfm-timestamp {
-  margin-inline-start: 0.375rem;
   color: var(--text-muted);
   opacity: 0.78;
 }
