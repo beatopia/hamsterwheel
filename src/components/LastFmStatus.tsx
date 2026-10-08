@@ -12,8 +12,8 @@ interface LastFmTrack {
 }
 
 const LOCAL_PLACEHOLDER_TRACK: LastFmTrack = {
-  title: 'cliche',
-  artist: '2hollis',
+  title: 'an extremely long placeholder song title that keeps going',
+  artist: 'an equally long placeholder artist name',
   nowPlaying: true,
   playedAt: Math.floor(Date.now() / 1000),
 };
@@ -102,55 +102,6 @@ function formatRelativeTime(timestamp: number) {
 
 export default function LastFmStatus() {
   const { track, isLoading } = React.useContext(LastFmContext);
-  const [hasOverflow, setHasOverflow] = React.useState(false);
-  const [marqueeActive, setMarqueeActive] = React.useState(false);
-  const [reducedMotion, setReducedMotion] = React.useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  const viewportRef = React.useRef<HTMLSpanElement>(null);
-  const contentRef = React.useRef<HTMLSpanElement>(null);
-
-  React.useLayoutEffect(() => {
-    const viewport = viewportRef.current;
-    const content = contentRef.current;
-    if (!track || !viewport || !content) {
-      setHasOverflow(false);
-      return undefined;
-    }
-
-    const measureOverflow = () => {
-      const distance = content.scrollWidth - viewport.clientWidth;
-      const overflowing = distance > 1;
-      setHasOverflow(overflowing);
-      if (overflowing) {
-        const duration = Math.max(12, Math.min(32, 12 + distance / 50));
-        content.style.setProperty('--lastfm-distance', `${distance}px`);
-        content.style.setProperty('--lastfm-duration', `${duration}s`);
-      }
-    };
-
-    measureOverflow();
-    const observer = new ResizeObserver(measureOverflow);
-    observer.observe(viewport);
-    observer.observe(content);
-    window.addEventListener('resize', measureOverflow);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', measureOverflow);
-    };
-  }, [track?.title, track?.artist]);
-
-  React.useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setReducedMotion(media.matches);
-    media.addEventListener('change', update);
-    return () => media.removeEventListener('change', update);
-  }, []);
-
-  React.useLayoutEffect(() => {
-    setMarqueeActive(false);
-    if (!hasOverflow || reducedMotion) return undefined;
-    const timer = window.setTimeout(() => setMarqueeActive(true), 1400);
-    return () => window.clearTimeout(timer);
-  }, [hasOverflow, reducedMotion, track?.title, track?.artist]);
 
   return (
     <div className={`lastfm-status${track ? ' has-content' : ''}${!track && isLoading ? ' is-loading' : ''}`} aria-live="polite" aria-atomic="true">
@@ -158,12 +109,8 @@ export default function LastFmStatus() {
         <div className="lastfm-status-line">
           <span className="lastfm-icon" aria-hidden="true">♫</span>
           <span className="lastfm-prefix">{track.nowPlaying ? 'I’m currently listening to' : 'The last song I listened to was'}</span>
-          <span ref={viewportRef} className="lastfm-scroll-window">
-            <span
-              key={`${track.title}\u0000${track.artist}`}
-              ref={contentRef}
-              className={`lastfm-scroll-content${hasOverflow && marqueeActive && !reducedMotion ? ' is-scrolling' : ''}`}
-            >
+          <span className="lastfm-scroll-window">
+            <span className="lastfm-scroll-content">
               {track.trackUrl ? <a href={track.trackUrl} target="_blank" rel="noopener noreferrer">{track.title}</a> : track.title}
               {' by '}
               {track.artistUrl ? <a href={track.artistUrl} target="_blank" rel="noopener noreferrer">{track.artist}</a> : track.artist}

@@ -9,9 +9,6 @@ export default function Home() {
   const [legFrame, setLegFrame] = React.useState(1);
   const [effectsEnabled, setEffectsEnabled] = React.useState(() => window.localStorage.getItem('effects') !== 'off');
   const [hamsterReady, setHamsterReady] = React.useState(false);
-  const [headerStacked, setHeaderStacked] = React.useState(false);
-  const headerRowRef = React.useRef<HTMLDivElement>(null);
-  const identityRef = React.useRef<HTMLDivElement>(null);
   const hamsterLegsRef = React.useRef<HTMLImageElement>(null);
   const hamsterBodyRef = React.useRef<HTMLImageElement>(null);
   const hamsterDecodeStarted = React.useRef(false);
@@ -45,38 +42,6 @@ export default function Home() {
     return () => window.clearInterval(timer);
   }, [effectsEnabled]);
 
-  React.useLayoutEffect(() => {
-    const row = headerRowRef.current;
-    const identity = identityRef.current;
-    if (!row || !identity) return undefined;
-
-    const measure = () => {
-      const statusLine = row.querySelector<HTMLElement>('.lastfm-status-line');
-      if (!statusLine) {
-        setHeaderStacked(false);
-        return;
-      }
-
-      const parts = Array.from(statusLine.children) as HTMLElement[];
-      const internalGap = Number.parseFloat(getComputedStyle(statusLine).columnGap) || 0;
-      const statusWidth = parts.reduce((width, part) => width + part.scrollWidth, 0)
-        + internalGap * Math.max(0, parts.length - 1);
-      const rowGap = Number.parseFloat(getComputedStyle(row).columnGap) || 0;
-      setHeaderStacked(identity.offsetWidth + rowGap + statusWidth > row.clientWidth + 0.5);
-    };
-
-    measure();
-    const resizeObserver = new ResizeObserver(measure);
-    resizeObserver.observe(row);
-    resizeObserver.observe(identity);
-    const mutationObserver = new MutationObserver(measure);
-    mutationObserver.observe(row, { childList: true, characterData: true, subtree: true });
-    return () => {
-      resizeObserver.disconnect();
-      mutationObserver.disconnect();
-    };
-  }, []);
-
   async function copyEmail() {
     try {
       await navigator.clipboard.writeText(email);
@@ -90,8 +55,8 @@ export default function Home() {
   return (
     <main className="home-main">
       <article className="prose home-copy" aria-labelledby="home-title">
-        <div ref={headerRowRef} className={`home-title-row${headerStacked ? ' is-stacked' : ''}`}>
-          <div ref={identityRef} className="home-identity">
+        <div className="home-title-row">
+          <div className="home-identity">
             <h1 id="home-title">Kai Luzniak</h1>
             <div className="social-links" aria-label="Social profiles">
               <a href="https://github.com/beatopia" target="_blank" rel="noreferrer" aria-label="GitHub">

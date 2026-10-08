@@ -171,7 +171,7 @@ main { padding-top: 4.15rem; }
 .home-title-row {
   display: flex;
   width: 100%;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   row-gap: 0.5rem;
@@ -340,15 +340,11 @@ p { margin: 0; }
   min-width: 0;
   min-height: 0;
   margin: 0 0 0 auto;
+  overflow: hidden;
   font-size: 0.78rem;
   line-height: 1.3;
   text-align: right;
-}
-
-.home-title-row.is-stacked > .lastfm-status {
-  flex: 1 0 100%;
-  margin: 0;
-  text-align: left;
+  white-space: nowrap;
 }
 
 .home-title-row > .lastfm-status.is-loading { min-height: 1.3em; }
@@ -383,19 +379,6 @@ p { margin: 0; }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.lastfm-scroll-content.is-scrolling {
-  max-width: none;
-  overflow: visible;
-  animation: lastfm-marquee var(--lastfm-duration) ease-in-out infinite;
-}
-
-@keyframes lastfm-marquee {
-  0% { transform: translateX(0); }
-  58% { transform: translateX(calc(0px - var(--lastfm-distance))); }
-  72% { transform: translateX(calc(0px - var(--lastfm-distance))); }
-  88%, 100% { transform: translateX(0); }
 }
 
 .lastfm-timestamp {
@@ -531,11 +514,20 @@ p { margin: 0; }
   .home-artwork { width: 9rem; max-width: 50%; }
 }
 
+@media (max-width: 480px) {
+  .home-title-row { flex-wrap: wrap; }
+
+  .home-title-row > .lastfm-status {
+    flex: 1 0 100%;
+    margin: 0;
+    text-align: left;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; }
   .video-preview-shell::before { animation: none; }
   .video-preview-image { transition: none; }
   .artwork-skeleton, .lastfm-skeleton { animation: none; }
   .hamster-art { transition: none; }
-  .lastfm-scroll-content.is-scrolling { animation: none; transform: none; }
 }
